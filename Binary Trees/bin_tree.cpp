@@ -8,6 +8,7 @@ struct node
 	struct node* right;
 };
 
+//Traversals
 void post_order_tra(struct node* root){
 	if(root==NULL)	return;
 
@@ -38,6 +39,7 @@ void in_order_tra(struct node* root){
 		
 	}
 }
+//Height of Tree
 int height(struct node* root){
 	if(root == NULL) return -1;
 	else{
@@ -46,7 +48,7 @@ int height(struct node* root){
 		return 1+max(left,right);
 	}
 }
-
+//Sum of all nodes
 int sum_of_all_nodes(struct node* root){
 	if(root == NULL)
 		return 0;
@@ -56,7 +58,7 @@ int sum_of_all_nodes(struct node* root){
 		return root->data+left+right;
 	}
 }
-
+//Maximum element
 int maxim(struct node* root){
 	if(root==NULL) return 0;
 	else{
@@ -65,13 +67,32 @@ int maxim(struct node* root){
 		return max(root->data,max(left,right));
 	}
 }
-
+//Minimum element
 int minim(struct node* root){
 	if(root==NULL) return INT_MAX;
 	else{
 		int left = minim(root->left);
 		int right = minim(root->right);
 		return min(root->data,min(left,right));
+	}
+}
+//Level Order traversal
+void LevelOrderRec(struct node* root, int i){
+	if(root == NULL) return;
+	else if(i==1) cout<<root->data<<' ';
+	else if(i>1){
+		LevelOrderRec(root->left,i-1);
+		LevelOrderRec(root->right,i-1);
+	}
+}
+
+void LevelOrderTraversal(struct node* root){
+	int h = height(root);
+	int levels = h+1;
+	int i;
+	for(i=1;i<=levels;i++){
+		LevelOrderRec(root, i);
+		cout<<'\n';
 	}
 }
 
@@ -110,7 +131,7 @@ int main()
 	n7->right = NULL;
 
 
-	cout<<minim(n3);
+	LevelOrderTraversal(n1);
 
 	return 0;
 }
