@@ -14,6 +14,7 @@ int main()
 		v[x].push_back(y);
 		v[y].push_back(x);
 	}
+	
 	i=0;
 	for(auto it: v){
 		cout<<i<<' ';
