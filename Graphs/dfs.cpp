@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 void dfs(int node, vector<int> &vis, vector<int> adj[], vector<int> &storeDfs){
 	storeDfs.push_back(node);
 	vis[node]=1;
