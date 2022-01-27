@@ -84,11 +84,40 @@ void FloydsTriangle(int n){
 	}
 }
 
+//to print butterfly pattern
+void butterflyPattern(int n,char ch){
+	int i,j;
+	for(i=1;i<=n;i++){
+		for(j=1;j<=i;j++){
+			cout<<ch<<' ';
+		}
+		for(j=(n-i)*2;j>0;j--){
+			cout<<"  ";
+		}		
+		for(j=1;j<=i;j++){
+			cout<<ch<<' ';
+		}
+		cout<<endl;
+	}
+	for(i=n;i>0;i--){		
+		for(j=1;j<=i;j++){
+			cout<<ch<<' ';
+		}
+		for(j=(n-i)*2;j>0;j--){
+			cout<<"  ";
+		}		
+		for(j=1;j<=i;j++){
+			cout<<ch<<' ';
+		}
+		cout<<endl;
+	}
+
+}
 
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	FloydsTriangle(n);
+	butterflyPattern(n,ch);
 	return 0;
 }
