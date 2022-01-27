@@ -31,10 +31,21 @@ void hollowrectangle(int r, int c, char ch){
 	rep(i,c) cout<<ch<<' ';
 }
 
+//to print inverted half pyramid
+void invertedHalfPyramid(int n,char ch){
+	int i,j;
+	rept(i,n){
+		rep(j,i){
+			cout<<ch<<' ';
+		}
+		cout<<'\n';
+	}
+}
+
 int main(){
-	int row, col;
+	int n;
 	char ch;
-	cin>>row>>col>>ch;
-	hollowrectangle(row,col,ch);
+	cin>>n>>ch;
+	invertedHalfPyramid(n,ch);
 	return 0;
 }
