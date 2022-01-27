@@ -58,12 +58,30 @@ void RhombusPattern(int n,char ch){
 	}
 }
 
-
+//to print Number Triangle Pattern
+// For n = 5
+//     1 
+//    1 2 
+//   1 2 3 
+//  1 2 3 4 
+// 1 2 3 4 5 
+void numberTrianglePattern(int n){
+	int i,j;
+	for(i=1;i<=n;i++){
+		for(j=n-i;j>0;j--)
+			cout<<' ';
+		for(j=1;j<=i;j++){
+			cout<<j<<' ';
+		}
+		cout<<'\n';
+	}
+}
 
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	RhombusPattern(n,ch);
+	// RhombusPattern(n,ch);
+	numberTrianglePattern(n);
 	return 0;
 }
