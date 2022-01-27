@@ -142,11 +142,31 @@ void zigzag(int n){
 	}
 }
 
+
+//to print Pascal's Triangle
+// For n = 5
+// 1 
+// 1 1 
+// 1 2 1 
+// 1 3 3 1 
+// 1 4 6 4 1 
+int fact(int n){
+	if(n==0) return 1;
+	return n*fact(n-1);
+}
+void pascalTriangle(int n){
+	int i,j;
+	for(i=0;i<n;i++){
+		for(j=0;j<=i;j++){
+			cout<<fact(i)/(fact(j)*fact(i-j))<<' ';
+		}
+		cout<<'\n';
+	}
+}
+
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	// starPattern(n,ch);
-	// zigzag(n);
 	return 0;
 }
