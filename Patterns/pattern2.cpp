@@ -125,11 +125,28 @@ void starPattern(int n,char ch){
 	}
 }
 
+//to print zig-zag pattern
+// For n = 9
+//   *   *  
+//  * * * * 
+// *   *   *
+void zigzag(int n){
+	int i,j;
+	for(i=1;i<=3;i++){
+		for(j=1;j<=n;j++){
+			if((i+j)%4==0 || (i==2 && j%4==0))
+				cout<<'*';
+			else cout<<' ';
+		}
+		cout<<'\n';
+	}
+}
+
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	starPattern(n,ch);
-	PalindromicPattern(n);
+	// starPattern(n,ch);
+	// zigzag(n);
 	return 0;
 }
