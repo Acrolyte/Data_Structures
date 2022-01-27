@@ -42,10 +42,24 @@ void invertedHalfPyramid(int n,char ch){
 	}
 }
 
+//to print half pyramid
+void halfPyramid(int n, char ch){
+	int i,j;
+	for(int i=1;i<=n;i++){
+		rept(j,n-i){
+			cout<<"  ";
+		}
+		rep(j,i){
+			cout<<ch<<' ';
+		}
+		cout<<'\n';
+	}
+}
+
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	invertedHalfPyramid(n,ch);
+	halfPyramid(n,ch);
 	return 0;
 }
