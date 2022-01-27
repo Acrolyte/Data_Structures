@@ -67,10 +67,28 @@ void halfNumberPyramid(int n){
 	}
 }
 
+//Floyd's Triangle
+// 1
+// 2 3
+// 4 5 6
+// 7 8 9 10
+// 11 12 13 14 15
+void FloydsTriangle(int n){
+	int i,j,c=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<=i;j++){
+			cout<<c<<' ';
+			c++;
+		}
+		cout<<'\n';
+	}
+}
+
+
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	halfNumberPyramid(n);
+	FloydsTriangle(n);
 	return 0;
 }
