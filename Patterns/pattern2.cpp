@@ -97,11 +97,39 @@ void PalindromicPattern(int n){
 	}
 }
 
+//to print Star Pattern
+// For n = 4
+//       * 
+//     * * * 
+//   * * * * * 
+// * * * * * * * 
+// * * * * * * * 
+//   * * * * * 
+//     * * * 
+//       * 
+void starPattern(int n,char ch){
+	int i,j;
+	for(i=0;i<n;i++){
+		for(j=n-i-1;j>0;j--)
+			cout<<"  ";
+		for(j=0;j<2*i+1;j++)
+			cout<<ch<<' ';
+		cout<<'\n';
+	}
+	for(i=n-1;i>=0;i--){
+		for(j=n-i-1;j>0;j--)
+			cout<<"  ";
+		for(j=0;j<2*i+1;j++)
+			cout<<ch<<' ';
+		cout<<'\n';
+	}
+}
+
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	// RhombusPattern(n,ch);
+	starPattern(n,ch);
 	PalindromicPattern(n);
 	return 0;
 }
