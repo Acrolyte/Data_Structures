@@ -56,10 +56,21 @@ void halfPyramid(int n, char ch){
 	}
 }
 
+//half pyramid using numbers
+void halfNumberPyramid(int n){
+	int i,j;
+	for(int i=1;i<=n;i++){
+		rep(j,i){
+			cout<<i<<' ';
+		}
+		cout<<'\n';
+	}
+}
+
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
-	halfPyramid(n,ch);
+	halfNumberPyramid(n);
 	return 0;
 }
