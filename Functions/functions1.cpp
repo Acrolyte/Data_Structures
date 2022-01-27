@@ -37,9 +37,26 @@ int todecimal(string s,int n){
 	return sum;
 }
 
+//decimal to binary, octal, hexadecimal
+string fromdecimal(string s, int base){
+	char a[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+	stack<char> st;
+	ll n = stoi(s);
+	string ans;
+	while(n>0){
+		st.push(a[n%base]);
+		n /= base;
+	}
+	while(!st.empty()){
+		ans.push_back(st.top());
+		st.pop();
+	}
+	return ans;
+}
+
 int main(){
 	int a,b,c;
 	cin>>a>>b>>c;
-	cout<<todecimal(to_string(a),b);
+	cout<<fromdecimal(to_string(a),b);
 	return 0;
 }
