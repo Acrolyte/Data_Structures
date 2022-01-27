@@ -168,5 +168,6 @@ int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
+	pascalTriangle(n);
 	return 0;
 }
