@@ -77,11 +77,31 @@ void numberTrianglePattern(int n){
 	}
 }
 
+//to print Palindromic Pattern
+// For n = 5
+//         1 
+//       2 1 2 
+//     3 2 1 2 3 
+//   4 3 2 1 2 3 4 
+// 5 4 3 2 1 2 3 4 5 
+void PalindromicPattern(int n){
+	int i,j;
+	for(i=1;i<=n;i++){
+		for(j=n-i;j>0;j--)
+			cout<<"  ";
+		for(j=i;j>0;j--)
+			cout<<j<<' ';
+		for(j=2;j<=i;j++)
+			cout<<j<<' ';
+		cout<<'\n';
+	}
+}
+
 int main(){
 	int n;
 	char ch;
 	cin>>n>>ch;
 	// RhombusPattern(n,ch);
-	numberTrianglePattern(n);
+	PalindromicPattern(n);
 	return 0;
 }
