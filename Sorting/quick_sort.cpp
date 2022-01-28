@@ -28,9 +28,9 @@ void quick_sort(vector<int> &A, int p, int r){
 
 int main(){
 
-	int n;
+	int n,i;
 	cin>>n;
-int i;
+
 	vector<int> a;
 	rep(i,n){
 		int x;
