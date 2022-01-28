@@ -57,6 +57,8 @@ string fromdecimal(string s, int base){
 int main(){
 	int a,b,c;
 	cin>>a>>b>>c;
-	cout<<fromdecimal(to_string(a),b);
+	cout<<todecimal(to_string(a),b);
+	bool t ;
+	cout<<(a | b);
 	return 0;
 }
