@@ -31,6 +31,31 @@ int binary_search(int a[],int t, int x){
 	return -1;
 }
 
+//max till i
+void maxtillI(int a[],int n){
+	int b[n]={};
+	int m = INT_MIN;
+	b[0] = a[0];
+	for(int i=0;i<n;i++){
+		b[i] = max(m,a[i]);
+		m = max(m,b[i]);
+	}
+	for(auto i : b) cout<<i<<' ';
+}
+
+//sum of all subarrays
+void sumSubArrays(int a[],int n){
+	int i,j,sum;
+	for(i=0;i<n;i++){
+		sum =0;
+		for(j=i;j<n;j++){
+			sum += a[j];
+			cout<<sum<<' ';
+		}
+		// cout<<sum<<' ';
+	}
+}
+
 int main(){
 	int n,i=0,x,t;
 	cin>>n;
@@ -48,6 +73,10 @@ int main(){
 	//binary search
 	// sort(a,a+t);
 	// cout<<binary_search(a,t,x);
+
+	// maxtillI(a,t);
+
+	sumSubArrays(a,t);
 
 	return 0;
 }
