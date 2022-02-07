@@ -97,7 +97,21 @@ void LevelOrderTraversal(struct node* root){
 }
 
 //Level order traversal using queue
+void printLevelTraversal(struct node* root){
+	if(root == NULL) return;
 
+	queue<struct node*> q;
+
+	q.push(root);
+
+	while(!q.empty()){
+		struct node* nod = q.front();
+		cout<<nod->data << " ";
+		q.pop();
+		if(nod->left!= NULL) q.push(nod->left);
+		if(nod->right!= NULL) q.push(nod->right);
+	}
+}
 
 int main()
 {
@@ -134,7 +148,8 @@ int main()
 	n7->right = NULL;
 
 
-	LevelOrderTraversal(n1);
+	// LevelOrderTraversal(n1);
+	printLevelTraversal(n1);
 
 	return 0;
 }

@@ -52,8 +52,43 @@ void sumSubArrays(int a[],int n){
 			sum += a[j];
 			cout<<sum<<' ';
 		}
-		// cout<<sum<<' ';
 	}
+}
+
+//longest arithmetic subarray
+int longestArithmeticSubarray(int a[], int n){
+	int i,j=2,sum=0,ans=2;
+	int pd = a[1] - a[0];
+	int curr = 2;
+
+	while(j<n){
+		if(pd == a[j]-a[j-1]) curr++;
+		else {
+			pd = a[j] - a[j-1];
+			curr = 2;
+		}
+		ans = max(curr, ans);
+		j++;
+	}
+
+	return ans;
+}
+
+int recordBreaking(int a[], int n ){
+	int ans=0, m = 0,i=0;
+	int b[n] = {};
+	for(i=0;i<n-1;i++){
+		if(a[i] > m && a[i]>a[i+1]) {
+			m = a[i];
+			b[i] = 1;
+			ans ++;
+		}
+	}
+	if(a[i] > m ) b[i] = 1;
+	for(i=0;i<n;i++)
+		cout<<b[i]<<" ";
+	cout<<endl;
+	return ans;
 }
 
 int main(){
@@ -76,7 +111,10 @@ int main(){
 
 	// maxtillI(a,t);
 
-	sumSubArrays(a,t);
+	// sumSubArrays(a,t);
 
+	// cout<<longestArithmeticSubarray(a,t);
+
+	cout<<recordBreaking(a,t);
 	return 0;
 }
