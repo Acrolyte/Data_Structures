@@ -68,17 +68,71 @@ void BTnumbersNto1(LL idx, LL n){
 	cout<<idx<<'\n';
 }
 
+//Parameterised Recursion
+void sumOfN_numbers(LL idx,LL sum){
+	if(idx < 1){
+	cout<<sum;
+	return;
+	}
+	sumOfN_numbers(idx-1,sum+idx);
+}
+//Functional Recursion
+LL sumOfN_numbers(LL n){
+	if(n==0) return 0;
+	return n+sumOfN_numbers(n-1);
+}
+
+void facto(LL idx,LL mul){
+	if(idx<=1){
+		cout<<mul<<'\n';
+		return;
+	}
+	facto(idx-1,mul*idx);
+}
+
+//parameterised 
+void reverse_an_array_two_pointers(vi &v,LL l, LL r){
+	if(l>=r) return;
+	swap(v[l],v[r]);
+	reverse_an_array_two_pointers(v,l+1,r-1);
+}
+
+//functional
+void reverse_an_array(vi &v, LL idx, LL n){
+	if(idx >= n/2) return;
+	swap(v[idx],v[n-idx-1]);
+	reverse_an_array(v,idx+1,n);
+}
+
+bool check_palindrome(string s,LL idx,LL n){
+	if(idx >= n/2) return true;
+	if(s[idx] != s[n-idx-1])return false;
+	return check_palindrome(s,idx+1,n);
+}
 
 void solve(){
-	LL n;
+	LL n,x;
 	cin>>n;
 	string s;
 	cin>>s;
+	vi v;
+	FOR(i,0,n){cin>>x;v.pb(x);}
 	// printNameNTimes(0,n,s);
 	// numbers1toN(1,n);
 	// numbersNto1(n);
 	// BTnumbers1toN(n,n);
 	// BTnumbersNto1(1,n);
+	// sumOfN_numbers(n,0);
+	// cout<<sumOfN_numbers(n);
+	// facto(n,1);
+	
+	// reverse_an_array_two_pointers(v,0,n-1);
+	// for(auto i: v)cout<<i<<' ';
+
+	// reverse_an_array(v,0,n);
+	// for(auto i: v)cout<<i<<' ';
+
+	if(check_palindrome(s,0,n)) cout<<"palin";else cout<<"not palin";
 }
 
 
