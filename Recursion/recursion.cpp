@@ -110,13 +110,105 @@ bool check_palindrome(string s,LL idx,LL n){
 	return check_palindrome(s,idx+1,n);
 }
 
+//multiple function calls
+LL fibbonacci(LL n){
+	if(n==0) return 0;
+	if(n==1) return 1;
+	return fibbonacci(n-1)+fibbonacci(n-2);
+}
+
+//printing subsequences (Can also be done by Bit Manipulation)
+void printSubs(LL idx, vector<char> v, string s){
+	if(idx >= s.length()){
+		for(auto i : v) cout<<i;
+			cout<<'\n';
+			return;
+	}
+	v.pb(s[idx]);
+	printSubs(idx+1, v, s);
+	v.pop_back();
+	printSubs(idx+1,v,s);
+}
+
+//printing subsequences whose sum is K
+void printSubsIsK(LL idx,vi &v2, vi &v, LL sum, LL k){
+	if(idx >= v.size()){
+		if(sum == k){
+			for(auto i: v2) cout<<i<<' ';
+				cout<<'\n';
+		}
+		return;
+	}
+	v2.pb(v[idx]);
+	printSubsIsK(idx+1,v2,v,sum+v[idx],k);
+	v2.pop_back();
+	printSubsIsK(idx+1,v2,v,sum,k);
+}
+
+//print any one subsequence whose sum is K
+bool printOneSubsSumIsK(LL idx, vi &v2, vi &v, LL sum, LL k){
+	if(idx >= v.size()){
+		if(sum == k){
+			for(auto i: v2)cout << i<<' ';
+				cout<<'\n';
+			return true;
+		}
+		return false;
+	}
+	v2.pb(v[idx]);
+	if(printOneSubsSumIsK(idx+1,v2,v,sum+v[idx],k)) return true;
+	v2.pop_back();
+	if(printOneSubsSumIsK(idx+1,v2,v,sum,k)) return true;
+	return false;
+}
+
+//prints the total no. of sum subsequences whose sum is k
+LL printNoOfSubsSumIsK(LL idx, vi &v, LL sum, LL k){
+	
+	if(idx >= v.size()){
+		if(sum == k){
+			return 1;
+		}
+		else return 0;
+	}
+
+	
+	LL l = printNoOfSubsSumIsK(idx+1,v,sum+v[idx],k);
+	
+	sum += v[idx];
+
+	sum -= v[idx];
+
+	LL r = printNoOfSubsSumIsK(idx+1,v,sum,k);
+	return l+r;
+}
+
+//prints combinations of numbers whose sum is provided (Nos are repeated)
+void combinationSum(vi &v,vi &v2, LL idx, LL sum){
+	if(idx>=v.size()){
+		if(sum <=0){
+			for(auto i:v2)
+				cout<<i<<' ';
+			cout<<'\n';
+		}
+		return;
+	}
+	v2.pb(v[idx]);
+	combinationSum(v,v2,idx,sum-v[idx]);
+	v2.pop_back();
+	combinationSum(v,v2,idx+1,sum);
+}
+
 void solve(){
 	LL n,x;
 	cin>>n;
 	string s;
 	cin>>s;
 	vi v;
-	FOR(i,0,n){cin>>x;v.pb(x);}
+	REP(i,n){cin>>x;v.pb(x);}
+	LL k;
+	cin>> k;
+	vi v2;
 	// printNameNTimes(0,n,s);
 	// numbers1toN(1,n);
 	// numbersNto1(n);
@@ -132,7 +224,19 @@ void solve(){
 	// reverse_an_array(v,0,n);
 	// for(auto i: v)cout<<i<<' ';
 
-	if(check_palindrome(s,0,n)) cout<<"palin";else cout<<"not palin";
+	// if(check_palindrome(s,0,n)) cout<<"palin";else cout<<"not palin";
+	
+	// cout<<fibbonacci(n);
+	// vector<char> v2;
+	// printSubs(0,v2,s);
+
+	// for(auto i: v) cout<<i<<' ';
+	
+	// printSubsIsK(0,v2,v,0,k);
+	// printOneSubsSumIsK(0,v2,v,0,k);
+	// cout<<printNoOfSubsSumIsK(0,v,0,k);
+
+	combinationSum(v,v2,0,k);
 }
 
 
