@@ -51,13 +51,15 @@ public:
 void display(Node* head){
 	Node* tmp = head;
 	while(tmp!=NULL){
-		cout<<tmp->data<<" ";
+		cout<<tmp->data<<"->";
 		tmp = tmp->next;
 	}
-	cout<<endl;
+	cout<<"NULL"<<endl;
 }
 
-//inserting at beginning
+//INSERTIONS
+//
+//inserting at tail end
 void insertAtTail(Node* &head, LL val){
 
 	Node* n = new Node(val);
@@ -71,13 +73,14 @@ void insertAtTail(Node* &head, LL val){
 	}
 	tmp->next = n;
 }
-
+//inserting at beginning
 void insertAtHead(Node* &head, LL val){
 	Node* n = new Node(val);
 	n->next = head;
 	head = n;
 }
 
+//Searching for key
 bool search(Node* head, LL key){
 	Node* tmp = head;
 	while(tmp!=NULL){
@@ -89,20 +92,57 @@ bool search(Node* head, LL key){
 	return false;
 }
 
+//DELETIONS
+//
+//deleting first element
+void deleteAtHead(Node* &head){
+	Node* del = head;
+	head = head->next;
+	delete del;
+}
+//delete anywhere as per given value
+void deletion(Node* &head, LL key){
+	if(head==NULL) 
+		return;
+
+	Node* tmp = head;
+	if(tmp->data == key){
+		deleteAtHead(head);
+		return;
+	}
+	if(tmp->next == NULL){
+		return;
+	}
+	while(tmp->next->data!=key && tmp->next!=NULL){
+		cout<<tmp->data<<endl;
+		tmp = tmp->next;
+	}
+	if(tmp->next == NULL){
+		return;
+	}
+
+	Node* del = tmp->next;
+	tmp ->next = tmp->next->next;
+	delete del;
+}
+
 void solve(){
 	LL n,x;
 	cin>>n;
 	Node* head = NULL;
 	TC(n){
 		cin>>x;
-		insertAtHead(head,x);
+		insertAtTail(head,x);
 	}
 	display(head);
 	LL key;
 	cin>>key;
 
-	if(search(head,key)) cout<<"Element found";
-	else cout<<"Element not found";
+	// if(search(head,key)) cout<<"Element found";
+	// else cout<<"Element not found";
+	deletion(head,key);
+	display(head);
+
 }
 
 
