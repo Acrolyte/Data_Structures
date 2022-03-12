@@ -126,6 +126,30 @@ void deletion(Node* &head, LL key){
 	delete del;
 }
 
+//Reverse linked list
+// 1. Iterative way
+void reverseLinkedList(Node* &head){
+	Node* prev = NULL, *curr = head, *nextptr;
+
+	while(curr!=NULL){
+		nextptr = curr->next;
+		curr->next = prev;
+
+		prev = curr;
+		curr = nextptr;
+	}
+	// return prev;
+	head = prev;
+}
+//2. Recursive
+Node* reverseLinkedListRecursive(Node* head){ 
+	if(head == NULL || head->next == NULL) return head;
+	Node* newhead = reverseLinkedListRecursive(head->next);
+	head->next->next = head;
+	head->next = NULL;
+	return newhead;
+}
+
 void solve(){
 	LL n,x;
 	cin>>n;
@@ -135,14 +159,20 @@ void solve(){
 		insertAtTail(head,x);
 	}
 	display(head);
-	LL key;
-	cin>>key;
+	// LL key;
+	// cin>>key;
 
 	// if(search(head,key)) cout<<"Element found";
 	// else cout<<"Element not found";
-	deletion(head,key);
-	display(head);
+	// deletion(head,key);
+	// display(head);
 
+	// reverseLinkedList(head);
+
+	head = reverseLinkedListRecursive(head);
+	// display(reverseLinkedListRecursive(head));
+	
+	display(head);
 }
 
 
