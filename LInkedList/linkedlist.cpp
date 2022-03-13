@@ -150,6 +150,61 @@ Node* reverseLinkedListRecursive(Node* head){
 	return newhead;
 }
 
+//reverse K nodes
+Node* reverseKNodes(Node* &head, LL k){
+	Node* prev = NULL, *curr = head, *nextptr;
+	int count = 0;
+	while(curr!=NULL && count<k){
+		nextptr = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = nextptr;
+		count++;
+	}
+	if(nextptr!=NULL)
+	head->next = reverseKNodes(nextptr, k);
+	return prev;
+}
+
+//Cycle detection
+bool detectCycle(Node* head){
+	Node* slow = head, *fast = head;
+	while(fast!=NULL && fast->next!=NULL){
+		slow = slow ->next;
+		fast = fast->next->next;
+		if(slow== fast)
+			return true;
+	}
+	return false;
+}
+//Cycle creation
+void makeCycle(Node* &head, int pos){
+	Node* tmp = head, *startNode;
+	int count = 0;
+	while(tmp->next!=NULL){
+		if(count == pos)
+			startNode = tmp;
+		tmp = tmp->next;
+		count++;
+	}
+	tmp->next = startNode;
+}
+//Remove Cycle
+void removeCycle(Node* &head){
+	Node* fast = head, *slow = head;
+	do{
+		slow = slow->next;
+		fast = fast->next->next;
+	}while(slow!=fast);
+
+	fast = head;
+	while(slow->next != fast->next){
+		slow = slow->next;
+		fast = fast->next;
+	}
+	slow->next = NULL;
+}
+
 void solve(){
 	LL n,x;
 	cin>>n;
@@ -159,8 +214,8 @@ void solve(){
 		insertAtTail(head,x);
 	}
 	display(head);
-	// LL key;
-	// cin>>key;
+	LL key;
+	cin>>key;
 
 	// if(search(head,key)) cout<<"Element found";
 	// else cout<<"Element not found";
@@ -169,9 +224,16 @@ void solve(){
 
 	// reverseLinkedList(head);
 
-	head = reverseLinkedListRecursive(head);
+	// head = reverseLinkedListRecursive(head);
 	// display(reverseLinkedListRecursive(head));
-	
+
+	// head = reverseKNodes(head,key);
+
+	makeCycle(head,key);
+	if(detectCycle(head)) cout<<"Cycle present";
+	else cout<<"Cycle not present";
+	removeCycle(head);
+	cout<<endl;
 	display(head);
 }
 
