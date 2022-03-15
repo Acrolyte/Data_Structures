@@ -216,6 +216,27 @@ void combinationSum2(vi &v, vi &v2, LL idx, LL sum, vvi &ans){
 	}
 }
 
+//Subset Sum (No duplicates)
+void subsetSum(vi &v, LL idx, LL sum,vi &ans){
+	if(idx == v.size()){
+		ans.pb(sum);
+		return;
+	}
+	subsetSum(v,idx+1,sum+v[idx],ans);
+	subsetSum(v,idx+1,sum,ans);
+}
+
+//Subset-2 (With duplicates)
+void subsetS2(vi &v,vi &v2, LL idx, vvi &ans){
+	ans.pb(v2);
+	for(LL i = idx;i<v.size();i++){
+		if(i!=idx && v[i]==v[i-1])continue;
+		v2.pb(v[i]);
+		subsetS2(v,v2,i+1,ans);
+		v2.pop_back();
+	}
+}
+
 void solve(){
 	LL n,x;
 	cin>>n;
@@ -256,15 +277,26 @@ void solve(){
 
 	// combinationSum(v,v2,0,k);
 
+	// SORT(v);
+	// vvi ans;
+	// combinationSum2(v,v2,0,k,ans);
+	// FOREACH(i,ans){
+	// 	FOREACH(j,i) cout<<j<<' ';
+	// 	cout<<'\n';
+	// }
+
+	// vi ans;
+	// subsetSum(v,v2,0,ans);
+	// SORT(ans);
+	// FOREACH(i,ans) cout<<i<<' ';
+
 	SORT(v);
 	vvi ans;
-	combinationSum2(v,v2,0,k,ans);
+	subsetS2(v,v2,0,ans);
 	FOREACH(i,ans){
 		FOREACH(j,i) cout<<j<<' ';
 		cout<<'\n';
 	}
-
-
 }
 
 
