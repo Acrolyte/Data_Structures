@@ -37,8 +37,9 @@ typedef vector<vl> vvl;
 #define PERMUTE next_permutation
 #define TC(t) while (t--)
 
-// BIT MANIPULATIONS
-
+// BIT MANIPULATIONS - BASIC OPERATIONS
+//
+//
 // getBit() - gives the bit value at given position
 LL getBit(LL n, LL pos){
 	return ((n & (1 << pos)) !=0);
@@ -60,20 +61,60 @@ LL updateBit(LL n, LL pos, LL bit){
 	return (n | (bit << pos));
 }
 
+//check if a given number is power of 2
+//returns 1 if n is power of 2 else 0
+bool chckPowerofTwo(LL n){
+	return (n && !(n & n-1));
+}
+
+
+// count and return the number of ones in binary form for a given number
+//
+// also __builtin_popcount(x) does the same
+LL countNumberOfOnes(LL n){
+	LL count = 0;
+	while(n){
+		n = n & n-1;
+		count++;
+	}
+	return count;
+}
+
+
+//generate all possible subsets of a set
+void generateSubsets(vi v){
+	LL l = v.size();
+	REP(i , (1<<l)){
+		REP(j,l){
+			if( i & (1 << j)) { // checking for setbit
+				cout<<v[j]<<' ';
+			}
+		}
+		cout<<'\n';
+	}	
+}
 
 
 void solve(){
 	int n;
 	cin>>n;
-	int k;
-	cin>>k;
+	// int k;
+	// cin>>k;
 
 	// cout<<getBit(n,k);
 	// cout<<setBit(n,k);
 	// cout<<clearBit(n,k);
 	// cout<<updateBit(n,k,1);
 
+	// cout<<chckPowerofTwo(n);
+	// cout<< countNumberOfOnes(n);
 	
+	// vi v;
+	// int x;
+	// TC(n){ cin>>x; v.pb(x); }
+	// generateSubsets(v);
+
+
 }
 
 
