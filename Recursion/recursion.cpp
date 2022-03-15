@@ -185,7 +185,7 @@ LL printNoOfSubsSumIsK(LL idx, vi &v, LL sum, LL k){
 
 //prints combinations of numbers whose sum is provided (Nos are repeated)
 void combinationSum(vi &v,vi &v2, LL idx, LL sum){
-	if(idx>=v.size()){
+	if(idx==v.size()){
 		if(sum <=0){
 			for(auto i:v2)
 				cout<<i<<' ';
@@ -193,10 +193,27 @@ void combinationSum(vi &v,vi &v2, LL idx, LL sum){
 		}
 		return;
 	}
-	v2.pb(v[idx]);
-	combinationSum(v,v2,idx,sum-v[idx]);
-	v2.pop_back();
+	if(v[idx] <= sum){
+		v2.pb(v[idx]);
+		combinationSum(v,v2,idx,sum-v[idx]);
+		v2.pop_back();
+	}
 	combinationSum(v,v2,idx+1,sum);
+}
+
+//prints combination of numbers whose sum is provided (Nos should not be repeated when calculating the sum)  
+void combinationSum2(vi &v, vi &v2, LL idx, LL sum, vvi &ans){
+	if(sum == 0){
+		ans.pb(v2);
+		return;
+	}
+	for(LL i = idx; i<v.size();i++){
+		if(i>idx && v[i] == v[i-1]) continue;
+		if(v[i] > sum) break;
+		v2.pb(v[i]);
+		combinationSum2(v,v2,i+1,sum-v[i],ans);
+		v2.pop_back();
+	}
 }
 
 void solve(){
@@ -208,7 +225,8 @@ void solve(){
 	REP(i,n){cin>>x;v.pb(x);}
 	LL k;
 	cin>> k;
-	vi v2;
+	vi v2; //Data Structure being used
+
 	// printNameNTimes(0,n,s);
 	// numbers1toN(1,n);
 	// numbersNto1(n);
@@ -236,7 +254,17 @@ void solve(){
 	// printOneSubsSumIsK(0,v2,v,0,k);
 	// cout<<printNoOfSubsSumIsK(0,v,0,k);
 
-	combinationSum(v,v2,0,k);
+	// combinationSum(v,v2,0,k);
+
+	SORT(v);
+	vvi ans;
+	combinationSum2(v,v2,0,k,ans);
+	FOREACH(i,ans){
+		FOREACH(j,i) cout<<j<<' ';
+		cout<<'\n';
+	}
+
+
 }
 
 
