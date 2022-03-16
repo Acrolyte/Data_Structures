@@ -237,11 +237,41 @@ void subsetS2(vi &v,vi &v2, LL idx, vvi &ans){
 	}
 }
 
+//Print all the permutations of a string/array (using extra space)
+void recurPermute(vi &ds, vi &v, vvi &ans, LL frq[]){
+	if(ds.size() == v.size()){
+		ans.pb(ds);
+		return;
+	}
+	for(LL i=0;i<v.size();i++){
+		if(!frq[i]){
+			ds.pb(v[i]);
+			frq[i] = 1;
+			recurPermute(ds,v,ans,frq);
+			frq[i] = 0;
+			ds.pop_back();
+		}
+	}
+}
+
+//Print all the permutations of a string/array (without using extra space)
+void recurPermute2(LL idx, vi &v, vvi &ans){
+	if(idx==v.size()){
+		ans.pb(v);
+		return;
+	}
+	for(LL i = idx;i<v.size();i++){
+		swap(v[idx],v[i]);
+		recurPermute2(idx+1,v,ans);
+		swap(v[idx],v[i]);
+	}
+}
+
 void solve(){
 	LL n,x;
 	cin>>n;
-	string s;
-	cin>>s;
+	// string s;
+	// cin>>s;
 	vi v;
 	REP(i,n){cin>>x;v.pb(x);}
 	LL k;
@@ -290,9 +320,18 @@ void solve(){
 	// SORT(ans);
 	// FOREACH(i,ans) cout<<i<<' ';
 
-	SORT(v);
+	// SORT(v);
+	// vvi ans;
+	// subsetS2(v,v2,0,ans);
+	// FOREACH(i,ans){
+	// 	FOREACH(j,i) cout<<j<<' ';
+	// 	cout<<'\n';
+	// }
+
 	vvi ans;
-	subsetS2(v,v2,0,ans);
+	LL frq[v.size()] = {0};
+	recurPermute(v2,v,ans,frq);
+	recurPermute2(0,v,ans);
 	FOREACH(i,ans){
 		FOREACH(j,i) cout<<j<<' ';
 		cout<<'\n';
