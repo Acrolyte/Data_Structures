@@ -95,6 +95,52 @@ void generateSubsets(vi v){
 }
 
 
+// Finding a unique number in an vector where others are present even number of times
+int findUniqueNumber(vi v){
+	int xorsum = 0;
+	FOREACH(i,v){
+		xorsum ^= i;
+	}
+	return xorsum;
+}
+
+//Finding two unique numbers in a vector where others are present even number of times
+void findTwoUniqueNumber(vi v){
+	int xorsum = findUniqueNumber(v);
+	int setbit = 0, pos = 0,  tmpxor = xorsum;
+	while(setbit!=1){
+		setbit = xorsum & 1;
+		pos++;
+		xorsum = xorsum >> 1;
+	}
+	
+	int newxor = 0 ;
+
+	FOREACH(i,v){
+		if(getBit(i,pos-1)){
+			newxor ^= i;
+		}
+	}
+
+	cout<<newxor<<" "<<(tmpxor^newxor)<<endl;
+}
+
+//find unique number in a vector where all other numbers are present thrice
+void tripletsExceptOne(vi v){
+	LL result = 0;
+	REP(i,64){
+		int sum = 0;
+		FOREACH(j,v){
+			if(getBit(j,i))
+				sum++;
+		}
+		if(sum % 3 !=0)
+			result = setBit(result,i);
+	}
+	cout<<result;
+}
+
+
 void solve(){
 	int n;
 	cin>>n;
@@ -108,13 +154,18 @@ void solve(){
 
 	// cout<<chckPowerofTwo(n);
 	// cout<< countNumberOfOnes(n);
-	
-	// vi v;
-	// int x;
-	// TC(n){ cin>>x; v.pb(x); }
+
+	vi v;
+	int x;
+	TC(n){ cin>>x; v.pb(x); }
+
 	// generateSubsets(v);
 
+	// cout<<findUniqueNumber(v);
 
+	// findTwoUniqueNumber(v);
+
+	tripletsExceptOne(v);
 }
 
 
