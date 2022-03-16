@@ -205,6 +205,85 @@ void removeCycle(Node* &head){
 	slow->next = NULL;
 }
 
+//count the number of nodes in a linkedlist
+LL countNodes(Node* &head){
+	Node *tmp = head;
+	LL count = 0;
+	while(tmp!=NULL){
+		count++;
+		tmp = tmp->next;
+	}
+	return count;
+}
+
+//append last K nodes to the start of linkedlist
+void appendLastKtoStart(Node* &head, LL k){
+
+	Node* newhead, *newTail, *tail = head;
+	LL len = countNodes(head);
+	LL count = 1;
+	k = k % len;
+	while(tail->next != NULL){
+		if(count == len - k)
+			newTail = tail;
+		if(count == len - k + 1)
+			newhead = tail;
+		tail = tail ->next;
+		count++;
+	}	
+	tail->next = head;
+	newTail ->next = NULL;
+	head = newhead;
+}
+
+//intersect two linkedlists manually
+void intersect(Node* &head1, Node* &head2, LL k){
+	Node* tmp1 = head1;
+	k--;
+	TC(k) tmp1 = tmp1 ->next;
+	Node* tmp2 = head2;
+	while(tmp2->next!=NULL){
+		tmp2 = tmp2 ->next;
+	}
+	tmp2->next = tmp1;
+}
+
+//find the intersectoin of two linkedlist
+void intersectionPoint(Node* &head1, Node* &head2){
+	LL l1 = countNodes(head1);
+	LL l2 = countNodes(head2);
+	LL d = 0;
+	Node* ptr1, *ptr2;
+	if(l1>l2){
+		d = l1 - l2;
+		ptr1 = head1;
+		ptr2 = head2;
+	}
+	else {
+		d = l2 - l1;
+		ptr1 = head2;
+		ptr2 = head1;
+	}
+
+	TC(d){ 
+		ptr1 = ptr1->next;
+		if(ptr1 == NULL){
+			cout<<"No Intersection!!\n";
+			return;
+		}
+	}
+
+	while(ptr1!=NULL && ptr2!=NULL){
+		if(ptr1 == ptr2){
+			cout<<ptr1->data<<" is the intersection Point\n";
+			return;
+		}
+		ptr1 = ptr1->next;
+		ptr2 = ptr2 ->next;
+	}
+	cout<<"No Intersection!!\n";
+}
+
 void solve(){
 	LL n,x;
 	cin>>n;
@@ -213,13 +292,13 @@ void solve(){
 		cin>>x;
 		insertAtTail(head,x);
 	}
-	display(head);
+	// display(head);
 	LL key;
 	cin>>key;
 
 	// if(search(head,key)) cout<<"Element found";
 	// else cout<<"Element not found";
-	deletion(head,key);
+	// deletion(head,key);
 	// display(head);
 
 	// reverseLinkedList(head);
@@ -234,7 +313,21 @@ void solve(){
 	// else cout<<"Cycle not present";
 	// removeCycle(head);
 	// cout<<endl;
+
+	// appendLastKtoStart(head , key);
+
+	Node* head2 = NULL;
+	LL n2;
+	cin>>n2;
+	TC(n2){
+		cin>>x;
+		insertAtTail(head2,x);
+	}
+	intersect(head,head2,key);
+	intersectionPoint(head,head2);
+
 	display(head);
+	display(head2);
 }
 
 
