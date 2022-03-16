@@ -219,7 +219,7 @@ void solve(){
 
 	// if(search(head,key)) cout<<"Element found";
 	// else cout<<"Element not found";
-	// deletion(head,key);
+	deletion(head,key);
 	// display(head);
 
 	// reverseLinkedList(head);
@@ -229,11 +229,11 @@ void solve(){
 
 	// head = reverseKNodes(head,key);
 
-	makeCycle(head,key);
-	if(detectCycle(head)) cout<<"Cycle present";
-	else cout<<"Cycle not present";
-	removeCycle(head);
-	cout<<endl;
+	// makeCycle(head,key);
+	// if(detectCycle(head)) cout<<"Cycle present";
+	// else cout<<"Cycle not present";
+	// removeCycle(head);
+	// cout<<endl;
 	display(head);
 }
 
