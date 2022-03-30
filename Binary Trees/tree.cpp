@@ -82,17 +82,51 @@ vl levelOrder(Node* root){
 	vl v;
 	queue<Node*> q;
 	q.push(root);
+	q.push(NULL); //better implementation of level order
+
 	while(!q.empty()){
 		Node* tmp = q.front();
 		v.pb(tmp->data);
 		q.pop();
 
-		if(tmp->left) q.push(tmp->left);
-		if(tmp->right) q.push(tmp->right);
+		if(tmp != NULL){
+			if(tmp->left) q.push(tmp->left);
+			if(tmp->right) q.push(tmp->right);
+		}
+		else if(!q.empty())
+			q.push(NULL);
 	}
 	return v;
 }
 
+// Sum of all Nodes at K-th Level
+LL sumAtK(Node* root, LL k){
+	if(root == NULL) return -1;
+	queue<Node*> q;
+	q.push(root);
+	q.push(NULL);
+
+	LL lvl = 0;
+	LL sum = 0;
+
+	while(!q.empty()){
+		Node* node = q.front();
+		q.pop();
+
+		if(node != NULL){
+			if(lvl == k){
+				sum += node->data;
+			}
+			if(node->left) q.push(node->left);
+			if(node->right) q.push(node->right);
+		}
+		else if(!q.empty()){
+			q.push(NULL);
+			lvl++;
+		}
+	}
+	return sum;
+}
 
 // Utility Functions
 LL search(vl v, LL start, LL end, LL curr){
@@ -169,7 +203,17 @@ LL diameter(Node* root, LL &ans){
 	return max(lh+rh+1, max(ld,rd));
 }
 
+//  Count total number of Nodes
+LL countNodes(Node* root){
+	if(root== NULL) return 0;
+	return 1+countNodes(root->left)+countNodes(root->right);
+}
 
+// Sum of all Nodes
+LL sumNodes(Node* root){
+	if(root == NULL) return 0;
+	return root->data + sumNodes(root->left) + sumNodes(root->right);
+}
 
 void solve(){
 	// Node* root = new Node(1);
@@ -210,7 +254,13 @@ void solve(){
 	// cout<<endl<<"diameter = "<<diameter(root,di)<<endl;
 
 	Node* root = buildTreeUsingPostAndIn(preOrd,inOrd,0,n-1);
-	preOrder(root);
+	// preOrder(root);
+
+	// cout<<countNodes(root);
+	// cout<<sumNodes(root);
+
+	cout<<sumAtK(root,5);
+
 }
 
 
