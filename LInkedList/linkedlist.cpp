@@ -162,7 +162,7 @@ Node* reverseKNodes(Node* &head, LL k){
 		count++;
 	}
 	if(nextptr!=NULL)
-	head->next = reverseKNodes(nextptr, k);
+		head->next = reverseKNodes(nextptr, k);
 	return prev;
 }
 
@@ -334,6 +334,20 @@ Node* mergelistsRecursive(Node* &head1, Node* head2){
 	return result;
 }
 
+//Question: Put elements at even postion after the elements at odd position
+void evenAfterOdd(Node* &head){
+	Node* odd = head;
+	Node* even = head->next;
+	Node* evenStart = even;
+	while(odd->next!=NULL && even->next!=NULL){
+		odd->next = even->next;
+		odd = odd->next;
+		even->next = odd->next;
+		even = even->next;
+	}
+	odd->next = evenStart;
+	if(odd->next!=NULL) even->next = NULL;
+}
 
 void solve(){
 	LL n,x;
@@ -357,7 +371,7 @@ void solve(){
 	// head = reverseLinkedListRecursive(head);
 	// display(reverseLinkedListRecursive(head));
 
-	// head = reverseKNodes(head,key);
+	head = reverseKNodes(head,key);
 
 	// makeCycle(head,key);
 	// if(detectCycle(head)) cout<<"Cycle present";
@@ -367,31 +381,34 @@ void solve(){
 
 	// appendLastKtoStart(head , key);
 
-	Node* head2 = NULL;
-	LL n2;
-	cin>>n2;
-	TC(n2){
-		cin>>x;
-		insertAtTail(head2,x);
-	}
+	// Node* head2 = NULL;
+	// LL n2;
+	// cin>>n2;
+	// TC(n2){
+	// 	cin>>x;
+	// 	insertAtTail(head2,x);
+	// }
 	// intersect(head,head2,key);
 	// intersectionPoint(head,head2);
 
-	display(head);
-	display(head2);
+	// display(head);
+	// display(head2);
 
-	Node* newhead = mergelistsRecursive(head,head2);
-	display(newhead);
+	// Node* newhead = mergelistsRecursive(head,head2);
+	// display(newhead);
+
+	// evenAfterOdd(head);
+	display(head);
 }
 
 
 int main(){
 	ios_base::sync_with_stdio(0);
-    cin.tie(0);
+	cin.tie(0);
     //int t;
     //cin>>t;
     //TC(t)
-    solve();
+	solve();
 
 	return 0;
 }
