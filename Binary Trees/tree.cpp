@@ -99,6 +99,37 @@ vl levelOrder(Node* root){
 	return v;
 }
 
+// Reverse Level-Order Traversal
+void reverseLevelOrder(Node* root){
+	vl v;
+	queue<Node*> q;
+	stack<Node*> s;
+	q.push(root);
+
+	while(!q.empty()){
+		root = q.front();
+		q.pop();
+		s.push(root);
+		if(root->right) q.push(root->right);
+		if(root->left) q.push(root->left);
+	}
+	while(!s.empty()){
+		root = s.top();
+		cout<<root->data<<' ';
+		s.pop();
+	}
+}
+
+// InOrder, PreOrder, PostOrder in single Traversal
+void singleTraversal(Node* root, vl &ino,vl &pos, vl &pre){
+	if(root == NULL) return;
+	pre.pb(root->data);
+	singleTraversal(root->left,ino,pos,pre);
+	ino.pb(root->data);
+	singleTraversal(root->right,ino,pos,pre);
+	pos.pb(root->data);
+}
+
 // Sum of all Nodes at K-th Level
 LL sumAtK(Node* root, LL k){
 	if(root == NULL) return -1;
@@ -215,6 +246,39 @@ LL sumNodes(Node* root){
 	return root->data + sumNodes(root->left) + sumNodes(root->right);
 }
 
+// Modify every node in a tree to contain the sum of its child nodes with its own sum
+void sumReplacement(Node* &root){
+	if(root == NULL) return ;
+	sumReplacement(root->left);
+	sumReplacement(root->right);
+	if(root->left)
+	root->data += root->left->data;
+	if(root->right)
+	 root->data += root->right->data;
+	// return root->data;
+}
+
+// Check if a binary tree is balanced or not
+// A binary tree is balance iff for every node difference of the heights of its subtrees is less than or equal to 1.
+int checkbalance(Node* root){
+	if(root == NULL) return 0;
+	
+	LL lheight = checkbalance(root->left);
+	if(lheight == -1) return -1;
+	LL rheight = checkbalance(root->right);
+	if(rheight == -1) return -1;
+
+	if(abs(lheight-rheight)>1) return -1;
+	return 1+max(lheight,rheight);
+}
+
+bool balance(Node* root){
+	return checkbalance(root) != -1;
+}
+
+// 
+//
+
 void solve(){
 	// Node* root = new Node(1);
 	// root->left = new Node(2);
@@ -241,7 +305,7 @@ void solve(){
 		inOrd.pb(x);
 	}
 
-	// Node* root = buildTreeUsingPreAndIn(preOrd,inOrd,0,n-1);
+	Node* root = buildTreeUsingPreAndIn(preOrd,inOrd,0,n-1);
 	// inOrder(root);
 	// cout<<height(root);
 	// vl v = levelOrder(root);
@@ -253,14 +317,29 @@ void solve(){
 	// LL di = 0;
 	// cout<<endl<<"diameter = "<<diameter(root,di)<<endl;
 
-	Node* root = buildTreeUsingPostAndIn(preOrd,inOrd,0,n-1);
+	// Node* root = buildTreeUsingPostAndIn(preOrd,inOrd,0,n-1);
 	// preOrder(root);
 
 	// cout<<countNodes(root);
 	// cout<<sumNodes(root);
 
-	cout<<sumAtK(root,5);
+	// cout<<sumAtK(root,3);
+	// sumReplacement(root);
+	// inOrder(root);
 
+	// vl pre,ino,pos;
+	// singleTraversal(root,ino,pos,pre);
+	// cout<<"\ninOrder=> ";
+	// FOREACH(i,ino) cout<<i<<' ';
+	// cout<<"\npreOrder=> ";
+	// FOREACH(i,pre) cout<<i<<' ';
+	// cout<<"\npostOrder=> ";
+	// FOREACH(i,pos) cout<<i<<' ';
+
+	// if(balance(root)) cout<<"Tree is Balanced\n";
+	// else cout<<"Tree is unbalanced\n";
+
+	reverseLevelOrder(root);
 }
 
 
