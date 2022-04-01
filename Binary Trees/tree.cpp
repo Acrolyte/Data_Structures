@@ -51,7 +51,7 @@ public:
 };
 
 
-// TRAVERSALS
+// ------------------------------------------------TRAVERSALS---------------------------------------------------------
 //
 // Pre-Order Traversal (Root->Left->Right)
 void preOrder(Node* root){
@@ -159,6 +159,111 @@ LL sumAtK(Node* root, LL k){
 	return sum;
 }
 
+// zigzag traversal or spiral traversal print alternate level in left-right and right-level manner
+void zigZagTraversal(Node* root){
+	if(root == NULL) return;
+	deque<Node*> q;
+	q.pb(root);
+	bool flag = true;
+
+	while(!q.empty()){
+		LL n = q.size();
+		if(flag){
+			REP(i,n){
+				Node* curr = q.back();
+				q.pop_back();
+				cout<<curr->data<<' ';
+				if(curr->left != NULL) q.push_front(curr->left);
+				if(curr->right != NULL) q.push_front(curr->right);
+			}
+			flag = false;
+		}
+		else{
+			FORD(i,n,1){
+				Node* curr = q.front();
+				q.pop_front();
+				cout<<curr->data<<' ';
+				if(curr->right != NULL) q.pb(curr->right);
+				if(curr->left != NULL) q.pb(curr->left);
+			}
+			flag = true;
+		}
+	}
+
+}
+
+// ------------------------------------------------BOUNDARY TRAVERSAL-------------------------------------------------
+
+// Utility functions
+// Check whether a node is leaf or not
+bool isLeaf(Node* root){
+	return !(root->left) && !(root->right);
+}
+
+void addLeftBoundary(Node* root, vl &v){
+	Node* curr = root->left;
+	while(curr){
+		if(!isLeaf(curr)) v.pb(curr->data);
+		if(curr->left) curr = curr -> left;
+		else curr = curr->right;
+	}
+}
+
+void addLeaves(Node* root, vl &v){
+	if(root == NULL) return;
+	addLeaves(root->left, v);
+	if(isLeaf(root)) v.pb(root->data);
+	addLeaves(root->right, v);
+}
+
+void addRightBoundary(Node* root, vl &v){
+	Node* curr = root->right;
+	vl tmp;
+	while(curr){
+		if(!isLeaf(curr)) tmp.pb(curr->data);
+		if(curr->right) curr = curr->right;
+		else curr = curr->left;
+	}
+	REVERSE(tmp);
+	FOREACH(i,tmp) v.pb(i);
+}
+
+void boundaryTraversal(Node* root){
+	vl v;
+	v.pb(root->data);
+	if(!isLeaf(root))
+{		addLeftBoundary(root,v);
+		addLeaves(root,v);
+		addRightBoundary(root,v);
+	}
+	for(auto i: v) cout<<i<<' ';
+}
+// --------------------------------------------------VERTICAL ORDER TRAVERSAL----------------------------------------------------
+void vertInorder(Node* root, map<LL , map<LL , multiset<LL> >> &mp, LL ver, LL lvl){
+	if(root == NULL) return;
+	vertInorder(root->left, mp, ver-1, lvl+1);
+	mp[ver][lvl].insert(root->data);
+	vertInorder(root->right, mp, ver+1, lvl+1);
+}
+
+void verticalOrderTraversal(Node* root){
+	if(root == NULL) return;
+	map<LL , map<LL , multiset<LL> >> mp;
+	vertInorder(root, mp,0,0);
+	for(auto it: mp){
+		// cout<<it.fi<<"==>\n";
+		for(auto i: it.second){
+			// cout<<i.fi<<"= ";
+			for(auto j: i.se)
+				cout<<j<<" ";
+			// cout<<'\n';
+		}
+		// cout<<'\n';
+	}
+}
+
+// --------------------------------------------------CONSTRUCTIONS----------------------------------------------------
+
 // Utility Functions
 LL search(vl v, LL start, LL end, LL curr){
 	for(LL i=start;i<=end;i++){
@@ -207,6 +312,7 @@ Node* buildTreeUsingPostAndIn(vl postOrd, vl inOrd, LL start, LL end){
 	return node;
 }
 
+// --------------------------------------------- ONE OF A KIND FUNCTIONS -------------------------------------------
 
 // Height of a tree
 //
@@ -276,8 +382,92 @@ bool balance(Node* root){
 	return checkbalance(root) != -1;
 }
 
-// 
+// Check if two trees are identical or not
+bool identical(Node* root1, Node* root2){
+	if(root1 == NULL and  root2 == NULL) return true;
+	if(root1 == NULL or root2 == NULL) return false;
+	
+	if(root1->data != root2->data) return false;
+	return identical(root1->left,root2->left) and identical(root1->right,root2->right);	
+}
+
+// ----------------------------------------------------- VIEWS IN BINARY TREE ------------------------------------------------------------ 
+// RIGHT VIEW
+void rightView(Node* root){
+	if(root == NULL) return;
+	queue<Node*> q;
+	q.push(root);
+
+	while(!q.empty()){
+		LL n = q.size();
+		REP(i,n){
+			Node* curr = q.front();
+			q.pop();
+
+			if(i==n-1) cout<<curr->data<<' ';
+
+			if(curr->left != NULL) q.push(curr->left);
+			if(curr->right != NULL) q.push(curr->right);
+		}
+	}
+}
 //
+// LEFT VIEW 
+void leftView(Node* root){
+	if(root == NULL) return;
+	queue<Node*> q;
+	q.push(root);
+
+	while(!q.empty()){
+		LL n = q.size();
+		REP(i,n){
+			Node* curr = q.front();
+			q.pop();
+			if(i == 0) cout<<curr->data<<' ';
+			if(curr->left != NULL) q.push(curr->left);
+			if(curr->right != NULL) q.push(curr->right);
+		}
+	}
+}
+
+
+void topView(Node* root){
+	if(root== NULL) return;
+	queue<pair<Node*,LL>> q;
+	q.push({root,0});
+	map<LL,LL> mp;
+
+	while(!q.empty()){
+		auto it = q.front();
+		q.pop();
+		if(mp.find(it.se) == mp.end()) mp[it.se] = it.fi->data;
+		if(it.fi->left) q.push({it.fi->left,it.se-1});
+		if(it.fi->right) q.push({it.fi->right,it.se+1});
+	}
+	for(auto it : mp){
+		cout<<it.se<<' ';
+	}
+
+}
+
+void bottomView(Node* root){
+	if(root== NULL) return;
+	queue<pair<Node*,LL>> q;
+	q.push({root,0});
+	map<LL,LL> mp;
+
+	while(!q.empty()){
+		auto it = q.front();
+		q.pop();
+		mp[it.se] = it.fi->data;
+		if(it.fi->left) q.push({it.fi->left,it.se-1});
+		if(it.fi->right) q.push({it.fi->right,it.se+1});
+	}
+	for(auto it : mp){
+		cout<<it.se<<' ';
+	}
+
+}
 
 void solve(){
 	// Node* root = new Node(1);
@@ -339,7 +529,16 @@ void solve(){
 	// if(balance(root)) cout<<"Tree is Balanced\n";
 	// else cout<<"Tree is unbalanced\n";
 
-	reverseLevelOrder(root);
+	// reverseLevelOrder(root);
+
+	// rightView(root);
+	// leftView(root);
+	// topView(root);
+	// bottomView(root);
+
+	// zigZagTraversal(root);
+	// boundaryTraversal(root);
+	// verticalOrderTraversal(root);
 }
 
 
