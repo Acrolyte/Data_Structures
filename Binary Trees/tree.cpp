@@ -78,25 +78,25 @@ void postOrder(Node* root){
 }
 //
 // Level-Order Traversal
-vl levelOrder(Node* root){
+void levelOrder(Node* root){
 	vl v;
 	queue<Node*> q;
 	q.push(root);
-	q.push(NULL); //better implementation of level order
+	// q.push(NULL); //better implementation of level order
 
 	while(!q.empty()){
 		Node* tmp = q.front();
-		v.pb(tmp->data);
+		// v.pb(tmp->data);
+		cout<<tmp->data<<' ';
 		q.pop();
 
-		if(tmp != NULL){
+		// if(tmp != NULL){
 			if(tmp->left) q.push(tmp->left);
 			if(tmp->right) q.push(tmp->right);
-		}
-		else if(!q.empty())
-			q.push(NULL);
+		// }
+		// else if(!q.empty())
+		// 	q.push(NULL);
 	}
-	return v;
 }
 
 // Reverse Level-Order Traversal
@@ -312,6 +312,38 @@ Node* buildTreeUsingPostAndIn(vl postOrd, vl inOrd, LL start, LL end){
 	return node;
 }
 
+// Construct Binary Tree using String Input
+LL findIndex(string str, LL start, LL end){
+	if(start > end) return -1;
+
+	stack<LL> s;
+	for(LL i = start;i<=end;i++) {
+		if(str[i] == '(') s.push(str[i]);
+		else if(str[i] == ')'){
+			if(s.top() == '('){
+				s.pop();
+				if(s.empty()) return i;
+			}
+		}
+	}
+	return -1;
+}
+
+Node* constructTree(string s, LL start, LL end){
+	if(start > end) return NULL;
+
+	Node* root = new Node(s[start] - '0');
+	LL idx = -1;
+
+	if(start + 1 <= end && s[start+1] == '(')
+		idx = findIndex(s,start+1,end);
+	if(idx != -1){
+		root->left = constructTree(s, start+2 , idx -1);
+		root->right = constructTree(s,idx+2, end-1);
+	}
+	return root;
+}
+
 // --------------------------------------------- ONE OF A KIND FUNCTIONS -------------------------------------------
 
 // Height of a tree
@@ -466,8 +498,56 @@ void bottomView(Node* root){
 	for(auto it : mp){
 		cout<<it.se<<' ';
 	}
-
 }
+// ----------------------------------------------------- DIAGONAL TRAVERSAL ------------------------------------------------------------ 
+void diagonalTraversal(Node* root){
+	if(root == NULL) return;
+	queue<Node*> q;
+	q.push(root);
+
+	while(!q.empty()){
+		Node* n = q.front();
+		q.pop();
+
+		while(n){
+			cout<<n->data<<' ';
+			if(n->left) q.push(n->left);
+			n = n->right;
+		}
+	
+	}
+}
+
+// Check symmetric binary tree
+bool isMirror(Node* root1, Node* root2){
+	if(root1 == NULL || root2 == NULL)
+		return true;
+	if(root1->data == root2->data)
+		return isMirror(root1->left, root2->right) && isMirror(root1->right,root2->left);
+	return false;
+}
+
+// Get Maximum Path Sum of the tree
+LL maxPathSumUtil(Node* root, LL &ans){
+	if(root == NULL) return 0;
+
+	LL l = maxPathSumUtil(root->left,ans);
+	LL r = maxPathSumUtil(root->right,ans);
+
+	LL supportmax = max(max(l,r)+root->data, root->data);
+	LL majormax = max(supportmax, l+r+root->data);
+
+	ans = max(ans, majormax);
+	return supportmax;
+}
+
+LL maxPathSum(Node* root){
+	LL ans = 0;
+	maxPathSumUtil(root,ans);
+	return ans;
+}
+
+
 
 void solve(){
 	// Node* root = new Node(1);
@@ -482,20 +562,20 @@ void solve(){
 	// inOrder(root);
 	// postOrder(root);
 
-	LL n,x;
-	cin>>n;
-	vl preOrd;
-	REP(i,n) {
-		cin>>x;
-		preOrd.pb(x);
-	}
-	vl inOrd;
-	REP(i,n){
-		cin>>x;
-		inOrd.pb(x);
-	}
+	// LL n,x;
+	// cin>>n;
+	// vl preOrd;
+	// REP(i,n) {
+	// 	cin>>x;
+	// 	preOrd.pb(x);
+	// }
+	// vl inOrd;
+	// REP(i,n){
+	// 	cin>>x;
+	// 	inOrd.pb(x);
+	// }
 
-	Node* root = buildTreeUsingPreAndIn(preOrd,inOrd,0,n-1);
+	// Node* root = buildTreeUsingPreAndIn(preOrd,inOrd,0,n-1);
 	// inOrder(root);
 	// cout<<height(root);
 	// vl v = levelOrder(root);
@@ -539,6 +619,15 @@ void solve(){
 	// zigZagTraversal(root);
 	// boundaryTraversal(root);
 	// verticalOrderTraversal(root);
+	// diagonalTraversal(root);
+
+	// if(isMirror(root,root)) cout<<"Tree is mirror of itself";
+	// else cout<<"Tree is not mirror of itself";
+	
+	string s;
+	cin>>s;
+	Node* root = constructTree(s,0,s.length()-1);
+	cout<<maxPathSum(root)<<endl;
 }
 
 
