@@ -547,7 +547,67 @@ LL maxPathSum(Node* root){
 	return ans;
 }
 
+// Converts a binary tree to sum tree
+LL sumTree(Node* &root){
+	if(root == NULL) return 0;
+	LL val = root->data;
 
+	root->data = sumTree(root->left) + sumTree(root->right);
+
+	return root->data + val;
+}
+
+// Checks if binary tree is a sum tree
+// uses isLeaf() function to check for leaf nodes
+LL isSumTree(Node* root){
+	if(root == NULL) return 0;
+
+	LL ls = isSumTree(root->left);
+	if(ls == -1) return -1;
+
+	LL rs = isSumTree(root->right);
+	if(rs == -1) return -1;
+
+	if(isLeaf(root) || ls+rs == root->data)
+		return ls + rs + root->data;
+	else return -1;
+}
+
+// print Root to Node Path
+bool getPath(Node* root, LL tmp, vl &v){
+	if(!root) return false;
+
+	v.pb(root->data);
+	if(root->data == tmp) return true;
+
+	if(getPath(root->left,tmp,v) || getPath(root->right,tmp,v))
+		return true;
+
+	v.pop_back();
+	return false;
+}
+
+void rootToNode(Node* root, LL tmp){
+	vl v;
+	if(root == NULL) return;
+	getPath(root,tmp,v);
+	for(auto i: v) cout<<i<<' ';
+}
+
+// ----------------------------------------------------- LOWEST COMMON ANCESTOR ------------------------------------------------------------ 
+Node* findLCA(Node* root, LL n1, LL n2){
+	if(root == NULL) return NULL;
+
+	if(root->data == n1 || root->data == n2)
+		return root;
+
+	Node* lftlca = findLCA(root->left,n1,n2);
+	Node* rghtlca = findLCA(root->right,n1,n2);
+
+	if(lftlca && rghtlca) return root;
+
+	return (lftlca != NULL) ? lftlca : rghtlca;
+}
 
 void solve(){
 	// Node* root = new Node(1);
@@ -627,7 +687,17 @@ void solve(){
 	string s;
 	cin>>s;
 	Node* root = constructTree(s,0,s.length()-1);
-	cout<<maxPathSum(root)<<endl;
+	// cout<<maxPathSum(root)<<endl;
+	
+	// sumTree(root);
+	// if(isSumTree(root)) cout<<"It is a sum tree.";
+	// else cout<<"Not a Sum Tree.";
+
+	LL k,k2; cin>>k>>k2;
+	// rootToNode(root,k);
+	Node* lca = findLCA(root,k,k2);
+	cout<<lca->data;
+	
 }
 
 
