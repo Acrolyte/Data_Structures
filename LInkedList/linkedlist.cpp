@@ -358,20 +358,21 @@ void solve(){
 		insertAtTail(head,x);
 	}
 	// display(head);
-	LL key;
-	cin>>key;
+	// LL key;
+	// cin>>key;
 
 	// if(search(head,key)) cout<<"Element found";
 	// else cout<<"Element not found";
 	// deletion(head,key);
-	// display(head);
+	display(head);
 
 	// reverseLinkedList(head);
 
-	// head = reverseLinkedListRecursive(head);
+	head = reverseLinkedListRecursive(head);
+	display(head);
 	// display(reverseLinkedListRecursive(head));
 
-	head = reverseKNodes(head,key);
+	// head = reverseKNodes(head,key);
 
 	// makeCycle(head,key);
 	// if(detectCycle(head)) cout<<"Cycle present";
@@ -398,7 +399,7 @@ void solve(){
 	// display(newhead);
 
 	// evenAfterOdd(head);
-	display(head);
+	// display(head);
 }
 
 

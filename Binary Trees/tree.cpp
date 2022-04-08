@@ -609,6 +609,59 @@ Node* findLCA(Node* root, LL n1, LL n2){
 	return (lftlca != NULL) ? lftlca : rghtlca;
 }
 
+// check if all leaves are at same level or not
+bool chklvlUtil(Node* root,LL lvl, LL &leaflvl){
+	if(root==NULL) return false;
+
+	if(root->left == NULL && root->right==NULL) {
+		if(leaflvl == 0){
+			leaflvl = lvl;
+			return true;
+		}
+		return (leaflvl == lvl);
+	}
+	return chklvlUtil(root->left,lvl+1,leaflvl) && chklvlUtil(root->right,lvl+1,leaflvl);
+}
+
+bool chkLevel(Node* root){
+	LL lvl=0, leaflvl=0;
+	return chklvlUtil(root,lvl,leaflvl);
+}
+
+// minimum swaps to convert a binary tree to a BST.
+void inOrdUtil(Node* root, vl &v){
+	if(root == NULL) return;
+	inOrdUtil(root->left,v);
+	v.pb(root->data);
+	inOrdUtil(root->right,v);
+}
+
+LL minSwaps(Node* root){
+	vl in1;
+	in1.pb(0);
+	inOrdUtil(root,in1);
+
+	LL l = in1.size();
+	bool vis[l+1] = {false};
+
+	LL c = 0;
+	for(LL i=1;i<in1.size();i++){
+		if(in1[i] == i){
+			vis[i] = true; 
+		} else{
+			LL k = in1[i];
+			vis[i] = true;
+			while(!vis[k]){
+				vis[k] = true;
+				c++;
+				// cout<<k<<endl;
+				k = in1[k];
+			}
+		}
+	}
+	return c;
+}
+
 void solve(){
 	// Node* root = new Node(1);
 	// root->left = new Node(2);
@@ -693,11 +746,15 @@ void solve(){
 	// if(isSumTree(root)) cout<<"It is a sum tree.";
 	// else cout<<"Not a Sum Tree.";
 
-	LL k,k2; cin>>k>>k2;
+	// LL k,k2; cin>>k>>k2;
 	// rootToNode(root,k);
-	Node* lca = findLCA(root,k,k2);
-	cout<<lca->data;
+	// Node* lca = findLCA(root,k,k2);
+	// cout<<lca->data;
+
+	// if(chkLevel(root)) cout<<"Leaves are at same level.";
+	// else cout<<"Leaves are at different level.";
 	
+	cout<<minSwaps(root);
 }
 
 
