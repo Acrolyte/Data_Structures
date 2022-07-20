@@ -357,19 +357,19 @@ void solve(){
 		cin>>x;
 		insertAtTail(head,x);
 	}
-	// display(head);
-	// LL key;
-	// cin>>key;
+	display(head);
+	LL key;
+	cin>>key;
 
 	// if(search(head,key)) cout<<"Element found";
 	// else cout<<"Element not found";
-	// deletion(head,key);
+	deletion(head,key);
 	display(head);
 
 	// reverseLinkedList(head);
 
-	head = reverseLinkedListRecursive(head);
-	display(head);
+	// head = reverseLinkedListRecursive(head);
+	// display(head);
 	// display(reverseLinkedListRecursive(head));
 
 	// head = reverseKNodes(head,key);

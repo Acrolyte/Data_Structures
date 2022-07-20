@@ -144,10 +144,10 @@ void tripletsExceptOne(vi v){
 void solve(){
 	int n;
 	cin>>n;
-	// int k;
-	// cin>>k;
+	int k;
+	cin>>k;
 
-	// cout<<getBit(n,k);
+	cout<<getBit(n,k);
 	// cout<<setBit(n,k);
 	// cout<<clearBit(n,k);
 	// cout<<updateBit(n,k,1);
@@ -155,9 +155,9 @@ void solve(){
 	// cout<<chckPowerofTwo(n);
 	// cout<< countNumberOfOnes(n);
 
-	vi v;
-	int x;
-	TC(n){ cin>>x; v.pb(x); }
+	// vi v;
+	// int x;
+	// TC(n){ cin>>x; v.pb(x); }
 
 	// generateSubsets(v);
 
@@ -165,7 +165,7 @@ void solve(){
 
 	// findTwoUniqueNumber(v);
 
-	tripletsExceptOne(v);
+	// tripletsExceptOne(v);
 }
 
 
