@@ -43,7 +43,7 @@ typedef vector<vl> vvl;
 #define debug(x)
 #endif
 
-//display graph
+// DISPLAY GRAPH
 void display(vl adj[], ll n){
 	REPN(i,n){
 		cout<<i<<"=> ";
@@ -53,11 +53,16 @@ void display(vl adj[], ll n){
 	}
 }
 
+// ADD EDGE TO GRAPH
 void addEdge(vl adj[], ll u, ll v){
 	adj[u].pb(v);
 	adj[v].pb(u);
 }
 
+//-------------------------------------------- TRAVERSALS-------------------------------------------
+//
+// 1. BREADTH-FIRST-SEARCH
+//
 void bfs(vl adj[], ll n){
 	vl bft;
 	vl vis(n+1,0);
@@ -87,7 +92,9 @@ void bfs(vl adj[], ll n){
 	for(auto it: bft) 
 		cout<<it<<' ';
 }
-
+//
+// 2. DEPTH-FIRST-SEARCH
+//
 void dfsUtil(ll node, vl &vis, vl adj[], vl &dft){
 
 	dft.pb(node);
@@ -109,6 +116,9 @@ void dfs(vl adj[], ll n){
 	for(auto it: dft)
 		cout<<it<<' ';
 }
+//----------------------------------------------------------------------------------------------------
+
+
 
 void solve(){
 	ll n;
