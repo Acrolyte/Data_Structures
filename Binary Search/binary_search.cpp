@@ -123,13 +123,30 @@ ll first_occurence(vector<T> &v, T elem){
 	return res;
 }
 
+// Search and find the index of the last occurence of an element in a list
+template<class T>
+ll last_occurence(vector<T> &v, T elem){
+	ll lo = 0, hi = v.size()-1, res = -1;
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+		if(elem == v[mid]){
+			res = mid;
+			lo = mid + 1;
+		}
+		else if(elem < v[mid])
+			hi = mid - 1;
+		else lo = mid + 1;
+	}
+	return res;
+}
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
 	
-	// vl v;
-	// REP(i,n){cin>>x; v.pb(x);}
-	// cin>>k;
+	vl v;
+	REP(i,n){cin>>x; v.pb(x);}
+	cin>>k;
 	// SORT(v);
 	// debug(v)
 	// cout<<bsearch(v,k)<<endl;
@@ -142,7 +159,8 @@ void solve(){
 	// t ? SORT(v) : RSORT(v);
 	// cout<<anonysearch(v,k);
 
-	cout<<first_occurence(vc,ch); 
+	// cout<<first_occurence(v,k);
+	// cout<<last_occurence(v,k);
 }
 
 int main(){
