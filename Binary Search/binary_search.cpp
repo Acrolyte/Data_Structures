@@ -108,7 +108,7 @@ ll anonysearch(vl &v, ll elem){
 
 // Search and find the index of the first occurence of an element in a list
 template<class T>
-ll first_occurence(vector<T> &v, T elem){
+ll first_occurrence(vector<T> &v, T elem){
 	ll lo = 0, hi = v.size()-1, res = -1;
 	while(lo <= hi){
 		ll mid = lo + (hi-lo)/2;
@@ -125,7 +125,7 @@ ll first_occurence(vector<T> &v, T elem){
 
 // Search and find the index of the last occurence of an element in a list
 template<class T>
-ll last_occurence(vector<T> &v, T elem){
+ll last_occurrence(vector<T> &v, T elem){
 	ll lo = 0, hi = v.size()-1, res = -1;
 	while(lo <= hi){
 		ll mid = lo + (hi-lo)/2;
@@ -140,6 +140,16 @@ ll last_occurence(vector<T> &v, T elem){
 	return res;
 }
 
+// Find the count of an element in a sorted list
+template<class T>
+ll count_occurrence(vector<T> &v, T elem){
+	ll a = first_occurrence(v,elem);
+	ll b = last_occurrence(v,elem);
+	if(a == b and a == -1) return -1;
+	return b - a + 1;
+}
+
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
@@ -147,8 +157,8 @@ void solve(){
 	vl v;
 	REP(i,n){cin>>x; v.pb(x);}
 	cin>>k;
-	// SORT(v);
-	// debug(v)
+	SORT(v);
+	debug(v)
 	// cout<<bsearch(v,k)<<endl;
 	// RSORT(v);
 	// debug(v)
@@ -159,8 +169,9 @@ void solve(){
 	// t ? SORT(v) : RSORT(v);
 	// cout<<anonysearch(v,k);
 
-	// cout<<first_occurence(v,k);
-	// cout<<last_occurence(v,k);
+	// cout<<first_occurrence(v,k);
+	// cout<<last_occurrence(v,k);
+	// cout<<count_occurrence(v,k);
 }
 
 int main(){
