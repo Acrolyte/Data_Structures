@@ -93,6 +93,17 @@ ll revbsearch(vl &v,ll elem){
 	return -1;
 }
 
+// Search in a anonymous order list of elements.
+ll anonysearch(vl &v, ll elem){
+	if(v.size() == 1){
+		if(v[0] == elem) return 0;
+		else return -1;
+	}
+	if(v[0]<v[1]) return bsearch(v,elem);  
+	else if(v[0] > v[1]) return revbsearch(v,elem);
+	return -1;
+}
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
@@ -100,12 +111,17 @@ void solve(){
 	vl v;
 	REP(i,n){cin>>x; v.pb(x);}
 	cin>>k;
-	SORT(v);
-	debug(v)
-	cout<<bsearch(v,k)<<endl;
-	RSORT(v);
-	debug(v)
-	cout<<revbsearch(v,k);
+	// SORT(v);
+	// debug(v)
+	// cout<<bsearch(v,k)<<endl;
+	// RSORT(v);
+	// debug(v)
+	// cout<<revbsearch(v,k);
+
+	srand(time(0));		// seeding for rand()
+	t = rand() % 2 + 0; // using rand() to sort randomly for anonymous searching
+	t ? SORT(v) : RSORT(v);
+	cout<<anonysearch(v,k);
 }
 
 int main(){
