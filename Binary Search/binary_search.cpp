@@ -185,6 +185,27 @@ ll find_rotsort(vector<T> &v, T elem){
 	return max(modbsearch(v,elem,0,idx-1),modbsearch(v,elem,idx,v.size()-1));
 }
 
+// Find element in a nearly sorted array.
+template<class T>
+ll find_nearlysort(vector<T> &v, T elem){
+	ll lo = 0, hi = v.size()-1;
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+
+		if(v[mid] == elem) return mid;
+
+		if(mid+1 <= v.size()-1)
+		if(v[mid+1] == elem) return mid+1;
+		
+		if(mid-1 >= 0)
+		if(v[mid-1] == elem) return mid-1;
+		
+		if(elem > v[mid]) lo = mid + 2;
+		if(elem < v[mid]) hi = mid - 2;
+	}
+	return -1;
+}
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
@@ -210,7 +231,9 @@ void solve(){
 
 	// rotate(v.begin(),v.begin()+(n-k),v.end());
 	// cout<<num_times_rotated(v);
-	cout<<find_rotsort(v,k);
+	// cout<<find_rotsort(v,k);
+
+	cout<<find_nearlysort(v,k);
 }
 
 int main(){
