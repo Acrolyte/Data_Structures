@@ -166,6 +166,24 @@ ll num_times_rotated(vector<T> &v){
 	return 0;
 }
 
+template<class T>
+ll modbsearch(vector<T> &v,T elem, ll low, ll high){
+	ll lo = low, hi = high;
+	while(lo<=hi){
+		ll mid = lo + (hi-lo)/2;	// for large values storing (lo + hi) could lead to overflow
+		if(v[mid] == elem) return mid;
+		if(elem > v[mid]) lo = mid +1;
+		else hi = mid -1; 
+	}
+	return -1;
+}
+
+// Find if a number is present in rotated sorted array.
+template<class T>
+ll find_rotsort(vector<T> &v, T elem){
+	ll idx = num_times_rotated(v); // idx of minimum element
+	return max(modbsearch(v,elem,0,idx-1),modbsearch(v,elem,idx,v.size()-1));
+}
 
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
@@ -174,7 +192,7 @@ void solve(){
 	vl v;
 	REP(i,n){cin>>x; v.pb(x);}
 	cin>>k;
-	SORT(v);
+	// SORT(v);
 	debug(v)
 	// cout<<bsearch(v,k)<<endl;
 	// RSORT(v);
@@ -190,10 +208,9 @@ void solve(){
 	// cout<<last_occurrence(v,k);
 	// cout<<count_occurrence(v,k);
 
-	rotate(v.begin(),v.begin()+(n-k),v.end());
-	debug(v)
-	cout<<num_times_rotated(v);
-
+	// rotate(v.begin(),v.begin()+(n-k),v.end());
+	// cout<<num_times_rotated(v);
+	cout<<find_rotsort(v,k);
 }
 
 int main(){
