@@ -149,6 +149,23 @@ ll count_occurrence(vector<T> &v, T elem){
 	return b - a + 1;
 }
 
+// Find the number of times a sorted list is rotated.
+template<class T>
+ll num_times_rotated(vector<T> &v){
+	ll lo = 0, hi = v.size() - 1, n = v.size();
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+		ll prv = (mid - 1 + n) % n, nxt = (mid + 1)%n;
+		if(v[mid] <= v[prv] and v[mid] <= v[nxt])
+			return mid;
+		else if(v[mid] <= v[hi])
+			hi = mid - 1;
+		else if(v[mid] >= v[lo])
+			lo = mid + 1;
+	}
+	return 0;
+}
+
 
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
@@ -172,6 +189,11 @@ void solve(){
 	// cout<<first_occurrence(v,k);
 	// cout<<last_occurrence(v,k);
 	// cout<<count_occurrence(v,k);
+
+	rotate(v.begin(),v.begin()+(n-k),v.end());
+	debug(v)
+	cout<<num_times_rotated(v);
+
 }
 
 int main(){
