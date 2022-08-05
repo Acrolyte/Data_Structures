@@ -206,6 +206,45 @@ ll find_nearlysort(vector<T> &v, T elem){
 	return -1;
 }
 
+// Find the greatest of the smaller number present for an element. (Floor)
+template<class T>
+ll floor_elem(vector<T> &v, T elem){
+	ll lo = 0, hi = v.size() - 1, res = -1;
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+
+		if(elem == v[mid]) 
+			return v[mid];
+		if(elem < v[mid])
+			hi = mid - 1;
+		if(elem > v[mid]){
+			res = max(res,v[mid]);
+			lo = mid + 1;
+		}
+	}
+	return res;
+}
+
+// Find the smallest of the greater elements present for an element. (Ceil)
+template<class T>
+ll ceil_elem(vector<T> &v, T elem){
+	ll lo = 0, hi = v.size() - 1, res = -1;
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+
+		if(elem == v[mid]) 
+			return v[mid];
+		if(elem < v[mid]){
+			res = min(res,v[mid]);
+			hi = mid - 1;
+		}
+		if(elem > v[mid])
+			lo = mid + 1;
+	}
+	return res;
+}
+
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
@@ -233,7 +272,9 @@ void solve(){
 	// cout<<num_times_rotated(v);
 	// cout<<find_rotsort(v,k);
 
-	cout<<find_nearlysort(v,k);
+	// cout<<find_nearlysort(v,k);
+	// cout<<floor_elem(v,k);
+	cout<<ceil_elem(v,k);
 }
 
 int main(){
