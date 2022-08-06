@@ -262,17 +262,26 @@ char next_alpha(vector<char> &v, char elem){
 	return res;
 }
 
-
+// Searching for element if size of data is uncertain or infinite.
+template<class T>
+ll bsearch_infi(vector<T> &v,T elem){
+	ll lo = 0, hi = 1;
+	while(v[hi]<elem){
+		lo = hi;
+		hi = hi << 1;
+	}
+	return modbsearch(v,elem,lo,hi);
+}
 
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
 	
-	// vl v;
-	// REP(i,n){cin>>x; v.pb(x);}
-	// cin>>k;
+	vl v;
+	REP(i,n){cin>>x; v.pb(x);}
+	cin>>k;
 	// SORT(v);
-	// debug(v)
+	debug(v)
 	// cout<<bsearch(v,k)<<endl;
 	// RSORT(v);
 	// debug(v)
@@ -295,11 +304,13 @@ void solve(){
 	// cout<<floor_elem(v,k);
 	// cout<<ceil_elem(v,k);
 
-	vector<char> v;
-	char ch,ck;
-	REPN(i,n){cin>>ch; v.pb(ch);}
-	cin>>ck;
-	cout<<next_alpha(v,ck);
+	// vector<char> v;
+	// char ch,ck;
+	// REPN(i,n){cin>>ch; v.pb(ch);}
+	// cin>>ck;
+	// cout<<next_alpha(v,ck);
+
+	cout<<bsearch_infi(v,k);
 }
 
 int main(){
