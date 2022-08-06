@@ -273,6 +273,30 @@ ll bsearch_infi(vector<T> &v,T elem){
 	return modbsearch(v,elem,lo,hi);
 }
 
+// Search for the first occurence of 1 in a infinite binary(0s ad 1s) sorted array.
+// The problem is based on two of the previous smaller problems combined: first_occurence and bsearch_infi.
+template<class T>
+ll first_1_infi(vector<T> &v, T elem){
+	ll lo = 0, hi = 1;
+	while(v[hi]<elem){
+		lo = hi;
+		hi = hi << 1;
+	}
+	ll res = -1;
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+		if(elem == v[mid]){
+			res = mid;
+			hi = mid - 1;
+		}
+		if(v[mid] > elem)
+			hi = mid - 1;
+		if(v[mid] < elem)
+			lo = mid + 1;
+	}
+	return res;
+}
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
@@ -310,7 +334,8 @@ void solve(){
 	// cin>>ck;
 	// cout<<next_alpha(v,ck);
 
-	cout<<bsearch_infi(v,k);
+	// cout<<bsearch_infi(v,k);
+	cout<<first_1_infi(v,k);
 }
 
 int main(){
