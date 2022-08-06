@@ -244,16 +244,35 @@ ll ceil_elem(vector<T> &v, T elem){
 	return res;
 }
 
+// Find the next alphabetical element (ceil + 1).
+char next_alpha(vector<char> &v, char elem){
+	ll lo = 0, hi = v.size() - 1, res = '#';
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+
+		if(elem == v[mid]) 
+			lo = mid + 1;
+		if(elem < v[mid]){
+			res = v[mid];
+			hi = mid - 1;
+		}
+		if(elem > v[mid])
+			lo = mid + 1;
+	}
+	return res;
+}
+
+
 
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
 	
-	vl v;
-	REP(i,n){cin>>x; v.pb(x);}
-	cin>>k;
+	// vl v;
+	// REP(i,n){cin>>x; v.pb(x);}
+	// cin>>k;
 	// SORT(v);
-	debug(v)
+	// debug(v)
 	// cout<<bsearch(v,k)<<endl;
 	// RSORT(v);
 	// debug(v)
@@ -274,7 +293,13 @@ void solve(){
 
 	// cout<<find_nearlysort(v,k);
 	// cout<<floor_elem(v,k);
-	cout<<ceil_elem(v,k);
+	// cout<<ceil_elem(v,k);
+
+	vector<char> v;
+	char ch,ck;
+	REPN(i,n){cin>>ch; v.pb(ch);}
+	cin>>ck;
+	cout<<next_alpha(v,ck);
 }
 
 int main(){
