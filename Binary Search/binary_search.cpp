@@ -297,6 +297,28 @@ ll first_1_infi(vector<T> &v, T elem){
 	return res;
 }
 
+// Minimum difference element
+template<class T>
+ll mini_diff(vector<T> &v, T elem){
+	ll lo = 0, hi = v.size() - 1, fl = -1, ce;
+	while(lo <= hi){
+		ll mid = lo + (hi-lo)/2;
+
+		if(elem == v[mid]) 
+			return v[mid];
+		if(elem < v[mid]){
+			ce = min(ce,v[mid]);
+			hi = mid - 1;
+		}
+		if(elem > v[mid]){
+			fl = max(fl, v[mid]);
+			lo = mid + 1;
+		}
+	}
+	return ce-elem < elem - fl ? ce : fl;
+}
+
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
@@ -335,7 +357,9 @@ void solve(){
 	// cout<<next_alpha(v,ck);
 
 	// cout<<bsearch_infi(v,k);
-	cout<<first_1_infi(v,k);
+	// cout<<first_1_infi(v,k);
+
+	cout<<mini_diff(v,k);
 }
 
 int main(){
