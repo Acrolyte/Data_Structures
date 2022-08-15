@@ -194,7 +194,7 @@ void builtin(string s){ // taking binary string as input
 	// 5) __builtin_ffs(): Used to give the position of the LSB + 1.
 	cout << __builtin_ffs(b) << endl;
 
-	// 6) __lg():
+	// 6) __lg(): Used to give the position of MSB.
 	cout << __lg(b) << endl;
 
 	// 7) __builtin_bswap16(): Used to reverse the order of bits. Can also use bswap32, bswap64 and bswap128 as per requirement.
