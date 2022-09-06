@@ -101,18 +101,50 @@ vvl group_similar_strings(vector<string> const& s){
 	return groups;
 }
 
+// Find the different substrings in a string.
+ll count_unique_substrings(string const& s){
+	int n = s.size();
+	const int p = 31, m = 1e9+9;
+
+	vl p_pow(n);
+	p_pow[0] = 1;
+
+	REPN(i,n-1) p_pow[i] = (p_pow[i-1]*p) % m;
+
+	vl h(n+1,0);
+	REP(i,n){ h[i+1] = (h[i] + (s[i] -'a'+1)* p_pow[i]) % m;}
+
+	ll cnt = 0;
+	REPN(i,n){
+		set<ll> hs;
+		REP(j,n-i+1){
+			ll cur_h = (h[j+i] + m - h[j]) % m;
+			cur_h = (cur_h * p_pow[n-j-1]) % m;
+			hs.insert(cur_h);
+		}
+		cnt += hs.size();
+		debug(hs)
+	}
+
+	return cnt;
+}
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	string s;
-	// cin>>s;
+	cin>>s;
 	// n = compute_hash(s);
 	// debug(n)
 
-	cin>>n;
-	vector<string> v;
-	REP(i,n){cin>>s; v.pb(s);}
-	vvl ans = group_similar_strings(v);
-	debug(ans)
+	// cin>>n;
+	// vector<string> v;
+	// REP(i,n){cin>>s; v.pb(s);}
+	// vvl ans = group_similar_strings(v);
+	// debug(ans)
+
+	k = count_unique_substrings(s);
+	debug(k)
+
 }
 
 int main(){
