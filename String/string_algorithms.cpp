@@ -85,19 +85,34 @@ ll compute_hash(string const& s){
 }
 
 // Search for duplicate strings in an array of strings.
-vvl group_similar_strings(vector<string> &v){
+vvl group_similar_strings(vector<string> const& s){
+	int n = s.size();
+	vector<pll> hashes(n);
+	REP(i,n) hashes[i] = {compute_hash(s[i]), i};
 	
-}
+	SORT(hashes);
+	vvl groups;
 
+	REP(i,n){
+		if(i==0 or hashes[i].fi != hashes[i-1].fi)
+			groups.emplace_back();
+		groups.back().push_back(hashes[i].se);
+	}
+	return groups;
+}
 
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	string s;
-	cin>>s;
-	n = compute_hash(s);
-	debug(n)
+	// cin>>s;
+	// n = compute_hash(s);
+	// debug(n)
 
-
+	cin>>n;
+	vector<string> v;
+	REP(i,n){cin>>s; v.pb(s);}
+	vvl ans = group_similar_strings(v);
+	debug(ans)
 }
 
 int main(){
