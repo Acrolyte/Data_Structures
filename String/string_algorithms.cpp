@@ -129,10 +129,42 @@ ll count_unique_substrings(string const& s){
 	return cnt;
 }
 
+// String Matching using RABIN KARP
+vl rabin_karp(string const& pattern, string const& text){
+	const int p = 31, m = 1e9+9;
+	int n1 = pattern.size(), n2 = text.size();
+
+	vl p_pow(max(n1,n2));
+	p_pow[0] = 1;
+
+	for(int i=1;i<(int)p_pow.size();i++)
+		p_pow[i] = (p_pow[i-1]*p) % m;
+
+	vl h(n2 + 1, 0);
+
+	REP(i,n2) h[i+1] = (h[i] + (text[i] - 'a' + 1)*p_pow[i]) % m;
+
+	ll hs = 0;
+
+	REP(i,n1) hs = (hs + (pattern[i] - 'a' + 1) * p_pow[i]) % m;
+
+	vl occurences;
+
+	for(ll i=0; i+n1-1 < n2; i++){
+		ll cur_h = (h[i+n1] + m - h[i]) % m;
+		if(cur_h == hs * p_pow[i] % m)
+			occurences.pb(i);
+	}
+
+	return occurences;
+}
+
+
 void solve(){
-	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
-	string s;
+	ll n=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
+	string s,t;
 	cin>>s;
+	cin>>t;
 	// n = compute_hash(s);
 	// debug(n)
 
@@ -142,9 +174,11 @@ void solve(){
 	// vvl ans = group_similar_strings(v);
 	// debug(ans)
 
-	k = count_unique_substrings(s);
-	debug(k)
+	// k = count_unique_substrings(s);
+	// debug(k)
 
+	vl v = rabin_karp(s,t);
+	debug(v)
 }
 
 int main(){
