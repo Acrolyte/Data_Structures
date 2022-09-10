@@ -76,6 +76,29 @@ void postOrder(Node* root){
 	postOrder(root->right);
 	cout<<root->data<<' ';
 }
+
+// Iterative Post-Order Traversal (using One stack)
+vector<Node*> iterativePost(Node* root){
+	vector<Node*> ans;
+
+	stack<Node*> s;
+
+	s.push(root);
+
+	while(!s.empty()){
+		Node* tmp = s.top();
+		ans.push_back(tmp);
+		s.pop();
+
+		if(tmp->left != NULL)
+			s.push(tmp->left);
+		if(tmp->right != NULL)
+			s.push(tmp->right);
+	}
+	reverse(ans.begin(), ans.end());
+	return ans;
+}
+
 //
 // Level-Order Traversal
 void levelOrder(Node* root){
