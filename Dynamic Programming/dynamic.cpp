@@ -238,6 +238,52 @@ ll targetSum(ll val[],ll W,ll n){
 	return countNumberSubsetDiff(val,W,n); // Saving time ;)
 }
 
+
+//------------------------------------------ Unbounded Knapsack -----------------------------------------------------------------------
+
+// RECURSIVE WAY
+ll unboundedKnapsackRecursive(ll wt[],ll val[],ll W, ll n){
+	if(W == 0 || n == 0) return 0;
+	ll not_take = unboundedKnapsackRecursive(wt,val,W,n-1);
+	ll take = INT_MIN;
+
+	if(wt[n-1]<=W)
+		take = val[n-1] + unboundedKnapsackRecursive(wt,val,W-wt[n-1],n);
+
+	return max(take,not_take);
+}
+
+// Memoized Way
+ll unboundedKnapsackMemoized(ll wt[], ll val[], ll W, ll n, vvl &dp){
+	if(W == 0 || n == 0) return 0;
+
+	if(dp[n][W] != -1) return dp[n][W];
+
+	ll not_take = INT_MIN, take = INT_MIN;
+	not_take = unboundedKnapsackMemoized(wt,val,W,n-1,dp); 
+
+	if(wt[n-1] <= W) take = val[n-1] + unboundedKnapsackMemoized(wt,val,W-wt[n-1],n,dp);
+
+	return dp[n][W] = max(take,not_take);
+}
+
+// Top Down approach
+ll unboundedKnapsack(ll wt[],ll val[],ll W, ll n){
+	vvl dp(n+1, vector<ll> (W+1));
+
+	REP(i,n+1) REP(j,W+1) if(i==0 or j==0) dp[i][j] = 0;
+
+	REPN(i,n) REPN(j,W){
+		if(wt[i-1] <= j)
+			dp[i][j] = max(dp[i-1][j] , val[i-1] + dp[i][j-wt[i-1]]);
+		else dp[i][j] = dp[i-1][j];
+	}
+
+	// for(auto i: dp){ auto it = i; debug(it);} // print dp matrix
+	return dp[n][W];
+}
+
+
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	cin>>n;
@@ -245,12 +291,12 @@ void solve(){
 	//0-1 Knapsack Input
 	ll wt[n] = {0}, vl[n] = {0};
 	REP(i,n){cin>>vl[i];} // value array
-	// REP(i,n){cin>>wt[i];} // weight array
+	REP(i,n){cin>>wt[i];} // weight array
 	ll W;
 	cin>>W; // capacity
 
 	// cout << zeroOneKnapsackRecursive(wt,vl,W,n);
-	// vvl dp(n+1, vector<ll> (W+1,-1)); // 2d vector declared with 'n+1' rows and 'W+1' columns with default value 1.
+	vvl dp(n+1, vector<ll> (W+1,-1)); // 2d vector declared with 'n+1' rows and 'W+1' columns with default value 1.
 	// cout<< zeroOneKnapsackMemoized(wt,vl,W,n,dp);
 	// cout << zeroOneKnapsackTopDown(wt,vl,W,n);
 
@@ -260,8 +306,15 @@ void solve(){
 	// cout << countSubsets(vl,W,n);
 	// cout<< minimizeSubsetSumDifference(vl,n);
 	// cout << countNumberSubsetDiff(vl,W,n);
-	cout << targetSum(vl,W,n);
+	// cout << targetSum(vl,W,n);
 
+	// Unbounded Knapsack
+	// using same input as of 0-1 :)
+
+	// cout << unboundedKnapsackRecursive(wt,vl,W,n);
+	cout << unboundedKnapsackMemoized(wt,vl,W,n,dp);
+			for(auto i: dp){ auto it = i; debug(it);}
+	// cout << unboundedKnapsack(wt,vl,W,n);
 }
 
 
