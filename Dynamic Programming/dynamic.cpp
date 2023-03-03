@@ -224,8 +224,10 @@ ll countNumberSubsetDiff(ll val[],ll diff, ll n){
 	// we get that required sum = (diff + sum)/2 
 
 	ll sum = accumulate(val,val+n,0);
-	ll req_sum = (diff + sum) / 2;
-	return countSubsets(val,req_sum,n); // Refer the countSubset() function is required.
+
+	if(sum < abs(diff) or (diff+sum)%2!=0) return 0;
+	sum = ((sum - diff)/2.0); // Optimization added ;)
+	return countSubsets(val,sum,n); // Refer the countSubset() function is required.
 }
 //
 // 6. Target Sum: From the given list of numbers, we need to return the count of different combinations by setting plus(+) or minus(-) signs infront of every element such that the sum becomes equal to the target.
@@ -283,6 +285,46 @@ ll unboundedKnapsack(ll wt[],ll val[],ll W, ll n){
 	return dp[n][W];
 }
 
+// PROBLEMS ON UNBOUNDED KNAPSACK:-
+
+// 1. Rod Cutting Problem: Cut a rod of given length and maximize the price such that prices of different lengths are variable.
+
+ll rodCutting(ll len[],ll prices[], ll total_len, ll n){
+
+	// Upon understanding the question, we apply unbounded knapsack on this.
+	return unboundedKnapsack(len,prices,total_len,n);
+}
+
+// 2. Coin Change:
+// a) Max number of ways
+
+ll coinChangeMaxWays(ll val[],ll n, ll W){
+	vvl dp(n+1, vector<ll> (W+1));
+
+	REP(i,n+1) REP(j,W+1){
+		if(j==0) dp[i][j] = 1; // here we set all elements of the first column to be 1 except 0th element
+		if(i==0) dp[i][j] = 0; // and initialize the first row with 0s.
+	}
+
+	REPN(i,n) REPN(j,W){
+		if(val[i-1] <= j)
+			dp[i][j] = dp[i-1][j]  + dp[i][j-val[i-1]];
+		else dp[i][j] = dp[i-1][j];
+	}
+
+	// for(auto i: dp){ auto it = i; debug(it);} // print dp matrix
+	return dp[n][W];
+}
+
+// b) Min number of coins
+
+ll coinChangeMinCoins(ll val[],ll n,ll W){
+
+	
+	
+	return 0;
+}
+
 
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
@@ -312,9 +354,14 @@ void solve(){
 	// using same input as of 0-1 :)
 
 	// cout << unboundedKnapsackRecursive(wt,vl,W,n);
-	cout << unboundedKnapsackMemoized(wt,vl,W,n,dp);
-			for(auto i: dp){ auto it = i; debug(it);}
+	// cout << unboundedKnapsackMemoized(wt,vl,W,n,dp);
 	// cout << unboundedKnapsack(wt,vl,W,n);
+
+	// PROBLEMS ON UNBOUNDED KNAPSACK
+	cout << rodCutting(wt,vl,W,n) ;
+	// cout << coinChangeMaxWays(vl,n,W);
+
+	cout << endl;
 }
 
 
@@ -325,9 +372,9 @@ int main(){
 	ios_base::sync_with_stdio(NULL);
     cin.tie(NULL);
     cout.tie(NULL);
-    //int t;
-    //cin>>t;
-    //TC(t)
+    int t;
+    cin>>t;
+    TC(t)
     solve();
 
 	return 0;

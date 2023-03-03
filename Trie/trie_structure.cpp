@@ -68,87 +68,87 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-struct Edge
+
+// Implementation of TRIE
+
+// Node
+struct Node
 {
-	ll src,dest;
+	Node* links[26];
+	bool flag = false;
+	bool containsKey(char ch){
+		return (links[ch-'a'] != NULL);
+	}
+	void put(char ch, Node* node){
+		links[ch - 'a'] = node;
+	}
+	Node* get(char ch){
+		return links[ch-'a'];
+	}
+	void setEnd(){
+		flag = true;
+	}
+	bool isEnd(){
+		return flag;
+	}
 };
 
-class Graph
+// Trie Class
+class Trie
 {
+private:
+	Node* root;
 public:
-	vector<vector<ll>> adjList;
-	
-	Graph(vector<Edge> const &edges, ll n){
-		adjList.resize(n+1);
+	Trie(){
+		root = new Node();
+	}
 
-		for(auto &edge: edges){
-			adjList[edge.src].push_back(edge.dest);
-			
-			// Uncomment for undirected graph
-			adjList[edge.dest].push_back(edge.src);
+	void insert(string word){
+		Node* node = root;
+		for(ll i=0;i<word.size();i++){
+			if(!node->containsKey(word[i])){
+				node->put(word[i],new Node());
+			}
+			node = node->get(word[i]);
 		}
+		node->setEnd();
+	}
+
+	bool search(string word){
+		Node* node = root;
+		for(int i=0;i<word.size();i++){
+			if(!node->containsKey(word[i]))
+				return false;
+			node = node->get(word[i]);
+		}
+		return node->isEnd();
+	}
+
+	bool startsWith(string word){
+		Node* node = root;
+		for(int i=0;i<word.length();i++){
+			if(!node->containsKey(word[i]))
+				return false;
+			node = node->get(word[i]);
+		}
+		return true;
 	}
 };
-
-void printGraph(Graph const &g, ll n){
-	REPN(i,n){
-		cerr << i << " => ";
-		for(auto v: g.adjList[i])
-			cerr << v << " ";
-		cerr << endl;
-	}
-}
-
-// --------------------------------------------------------TRAVERSALS-------------------------------------------------------------
-// 
-// DEPTH FIRST SEARCH
-//
-void dfs(Graph const &g,bool vis[], ll vtx){
-	// Entering vertex
-	//
-	if(vis[vtx]) return; // Base condition
-	cerr << vtx << ' ';
-	vis[vtx] = true;
-	for(auto child: g.adjList[vtx]){
-		// if(vis[child]) continue; // can also be used instead of base condition.
-
-		// Entering child
-		dfs(g,vis,child);
-		// Exiting child
-	}
-	//
-	// Exiting vertex
-}
-//
-// BREADTH FIRST SEARCH
-//
-void bfs(Graph const &g,ll vtx){
-	queue<
-}
-
-
 
 void solve(){
 	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
-	cin>>n>>t;
-	vector<Edge> edges;
+	cin>>n;
+	string s;
 
-	TC(t){
-		cin>>a>>b;
-		edges.pb({a,b});
+	Trie trie;
+
+	TC(n){
+		cin>>x>>s;
+		if(x==1) trie.insert(s);
+		else if(x==2) if(trie.search(s)) cout << "Yes\n" ; else cout << "No\n";
+		else if(x==3) if(trie.startsWith(s)) cout << "Yes\n" ; else cout << "No\n";
 	}
-
-	Graph g(edges,n);
-	// g.printGraph();
-	// printGraph(g,n);
-
-	bool vis[n]; // visited array
-	RESET(vis,0);
-
-	// Traversals
-	dfs(g,vis,1);
-
-
+	
 }
 
 int main(){

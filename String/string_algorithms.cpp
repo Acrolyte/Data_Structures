@@ -110,9 +110,11 @@ ll count_unique_substrings(string const& s){
 	p_pow[0] = 1;
 
 	REPN(i,n-1) p_pow[i] = (p_pow[i-1]*p) % m;
+	// debug(p_pow)
 
 	vl h(n+1,0);
 	REP(i,n){ h[i+1] = (h[i] + (s[i] -'a'+1)* p_pow[i]) % m;}
+	debug(h)
 
 	ll cnt = 0;
 	REPN(i,n){
@@ -123,7 +125,7 @@ ll count_unique_substrings(string const& s){
 			hs.insert(cur_h);
 		}
 		cnt += hs.size();
-		debug(hs)
+		// debug(hs)
 	}
 
 	return cnt;
@@ -159,12 +161,26 @@ vl rabin_karp(string const& pattern, string const& text){
 	return occurences;
 }
 
+vl prefix_function(string s){
+	ll n = (ll)s.length();
+	vl pi(n,0);
+	for(ll i=1;i<n;i++){
+		int j= pi[i-1];
+		while(j>0 && s[i]!=s[j])
+			j = pi[j-1];
+		if(s[i]==s[j]) j++;
+		pi[i] = j;
+	}
+	return pi;
+}
+
+
 
 void solve(){
 	ll n=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	string s,t;
 	cin>>s;
-	cin>>t;
+	// cin>>t;
 	// n = compute_hash(s);
 	// debug(n)
 
@@ -177,8 +193,12 @@ void solve(){
 	// k = count_unique_substrings(s);
 	// debug(k)
 
-	vl v = rabin_karp(s,t);
-	debug(v)
+	// vl v = rabin_karp(s,t);
+	// debug(v)
+
+	vl ans = prefix_function(s);
+	debug(ans)
+
 }
 
 int main(){
