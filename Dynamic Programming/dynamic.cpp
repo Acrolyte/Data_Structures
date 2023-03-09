@@ -390,6 +390,33 @@ ll lcsTopDown(string a, string b,ll n,ll m){
 	return dp[n][m];
 }
 
+
+// PROBLEMS ON LONGEST COMMON SUBSEQUENCE:-
+
+// 1. Longest Commmon Substring: Find the length of longest substring (continuous sequence of characters) in both of the given strings.
+ll longestCommonSubstring(string a, string b, ll n, ll m){
+	vvl dp(n+1, vector<ll> (m+1,-1));
+
+	REP(i,n+1) REP(j,m+1){
+		if(i==0 or j==0) dp[i][j] = 0;
+	}
+
+	REPN(i,n) REPN(j,m){
+		if(a[i-1]==b[j-1]) dp[i][j] = 1+dp[i-1][j-1];
+		else dp[i][j] = 0;
+	}
+
+	ll mx = -1;
+	for(auto i: dp){
+		// debug(i)
+		for(auto j: i){
+			mx = max(j,mx);
+		}
+	}
+
+	return mx;
+}
+
 void solve(){
 	// ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	// cin>>n;
@@ -437,8 +464,11 @@ void solve(){
 
 	// cout << lcsRecursive(a,b,n,m);
 	// cout << lcsMemoized(a,b,n,m,dp);
-	cout << lcsTopDown(a,b,n,m);
+	// cout << lcsTopDown(a,b,n,m);
 	// for(auto i: dp){auto it = i; debug(i)}
+
+	// PROBLEMS ON LONGEST COMMON SUBSEQUENCE
+	cout << longestCommonSubstring(a,b,n,m);
 
 	cout << endl;
 }
