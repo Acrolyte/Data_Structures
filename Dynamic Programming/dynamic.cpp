@@ -194,7 +194,7 @@ ll countSubsets(ll val[],ll W,ll n){
 ll minimizeSubsetSumDifference(ll val[],ll n){
 	ll sum = accumulate(val, val + n, 0);
 	ll range = sum;
-	sum = ceil(sum/2.0);
+	sum = ceil(sum/2.0); // 'sum' is Half Sum actually.
 
 	vector<vector<bool>> dp(n+1, vector<bool> (sum+1));
 
@@ -221,11 +221,11 @@ ll minimizeSubsetSumDifference(ll val[],ll n){
 //
 ll countNumberSubsetDiff(ll val[],ll diff, ll n){
 	// using S1 - S2 = diff and S1 + S2 = sum
-	// we get that required sum = (diff + sum)/2 
+	// we get that required_sum = (diff + sum)/2 
 
 	ll sum = accumulate(val,val+n,0);
 
-	if(sum < abs(diff) or (diff+sum)%2!=0) return 0;
+	if(sum < abs(diff) or (diff+sum)%2!=0) return 0; // as there should not be any case in which the diff is greater than the total_sum and diff+sum is odd.
 	sum = ((sum - diff)/2.0); // Optimization added ;)
 	return countSubsets(val,sum,n); // Refer the countSubset() function is required.
 }
@@ -320,25 +320,89 @@ ll coinChangeMaxWays(ll val[],ll n, ll W){
 
 ll coinChangeMinCoins(ll val[],ll n,ll W){
 
+	vvl dp(n+1, vl (W+1));
+
+	REP(i,n+1) REP(j,W+1){
+		if(j==0) dp[i][j] = 0;
+		if(i==0) dp[i][j] = INT_MAX - 1; 
+	}
+
+	REPN(j,W){
+		if(j%val[0]==0)
+			dp[1][j] = j/val[0];
+		else dp[1][j] = INT_MAX-1;
+	}
+
+
+	FOR(i,2,n+1) FOR(j,1,W+1){
+		if(val[i-1]<=j)
+			dp[i][j] = min(dp[i][j-val[i-1]] +1 , dp[i-1][j]);
+		else dp[i][j] = dp[i-1][j];
+	}
+
 	
-	
-	return 0;
+	// for(auto i: dp){ auto it = i; debug(it);} // print dp matrix
+
+	return dp[n][W];
 }
 
 
+
+//------------------------------------------ Longest Common Subsequence --------------------------------------------------------------
+//
+// RECURSIVE WAY
+ll lcsRecursive(string a,string b, ll n , ll m){
+	if(n == 0 or m ==0) return 0;
+
+	// debug(a)
+	// debug(b)	
+	if(a[n-1] == b[m-1]) return 1 + lcsRecursive(a,b,n-1,m-1);
+
+	else return max(lcsRecursive(a,b,n-1,m),lcsRecursive(a,b,n,m-1));
+}
+
+// Memoized Way
+ll lcsMemoized(string a,string b,ll n,ll m,vvl &dp){
+	if(n==0 or m == 0) return 0;
+
+	if(dp[n-1][m-1]!=-1) return dp[n-1][m-1];
+
+	if(a[n-1] == b[m-1]) return dp[n-1][m-1] = 1 + lcsMemoized(a,b,n-1,m-1,dp);
+
+	else return dp[n-1][m-1] = max(lcsMemoized(a,b,n-1,m,dp),lcsMemoized(a,b,n,m-1,dp));
+}
+
+// TOP-DOWN WAY
+ll lcsTopDown(string a, string b,ll n,ll m){
+	vvl dp(n+1, vector<ll> (m+1,-1));
+
+	REP(i,n+1) REP(j,m+1){
+		if(i==0 or j==0) dp[i][j] = 0;
+	}
+
+	REPN(i,n) REPN(j,m){
+		if(a[i-1] == b[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
+		else dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+	}
+
+	// for(auto i: dp){auto it = i; debug(it)}
+
+	return dp[n][m];
+}
+
 void solve(){
-	ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
-	cin>>n;
+	// ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
+	// cin>>n;
 	
 	//0-1 Knapsack Input
-	ll wt[n] = {0}, vl[n] = {0};
-	REP(i,n){cin>>vl[i];} // value array
-	REP(i,n){cin>>wt[i];} // weight array
-	ll W;
-	cin>>W; // capacity
+	// ll wt[n] = {0}, vl[n] = {0};
+	// REP(i,n){cin>>vl[i];} // value array
+	// REP(i,n){cin>>wt[i];} // weight array
+	// ll W;
+	// cin>>W; // capacity
 
 	// cout << zeroOneKnapsackRecursive(wt,vl,W,n);
-	vvl dp(n+1, vector<ll> (W+1,-1)); // 2d vector declared with 'n+1' rows and 'W+1' columns with default value 1.
+	// vvl dp(n+1, vector<ll> (W+1,-1)); // 2d vector declared with 'n+1' rows and 'W+1' columns with default value 1.
 	// cout<< zeroOneKnapsackMemoized(wt,vl,W,n,dp);
 	// cout << zeroOneKnapsackTopDown(wt,vl,W,n);
 
@@ -358,8 +422,23 @@ void solve(){
 	// cout << unboundedKnapsack(wt,vl,W,n);
 
 	// PROBLEMS ON UNBOUNDED KNAPSACK
-	cout << rodCutting(wt,vl,W,n) ;
+	// cout << rodCutting(wt,vl,W,n) ;
 	// cout << coinChangeMaxWays(vl,n,W);
+	// cout << coinChangeMinCoins(vl,n,W);
+
+
+	// Longest Common Subsequence
+	// using string inputs and their lengths.
+
+	string a, b;
+	cin>> a >> b;
+	ll n = a.length(), m = b.length();
+	// vvl dp(n+1, vector<ll> (m+1,-1));
+
+	// cout << lcsRecursive(a,b,n,m);
+	// cout << lcsMemoized(a,b,n,m,dp);
+	cout << lcsTopDown(a,b,n,m);
+	// for(auto i: dp){auto it = i; debug(i)}
 
 	cout << endl;
 }
