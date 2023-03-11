@@ -463,6 +463,18 @@ ll shortestCommonSuperSequence(string a,string b, ll n, ll m){
 	return n + m - lcsTopDown(a,b,n,m);
 }
 
+// 4. Minimum no. of insertions and deletions to form string a to string b.
+ll minInsertionsAndDeletions(string a, string b, ll n, ll m){
+
+	// For doing this question we need to find all the common letters in order. Thus lcs ;)
+	
+	// No. of deletions = length of string 1 - common letters.
+	// No. of insertions = length of string 2 - common letters.
+
+	// Therefore total mininum insertions and deletions = n + m - 2 * lcs.
+
+	return n+m - 2*lcsTopDown(a,b,n,m);
+}
 
 
 void solve(){
@@ -518,7 +530,8 @@ void solve(){
 	// PROBLEMS ON LONGEST COMMON SUBSEQUENCE
 	// cout << longestCommonSubstring(a,b,n,m);
 	// cout << lcsPrint(a,b,n,m);
-	cout << shortestCommonSuperSequence(a,b,n,m);
+	// cout << shortestCommonSuperSequence(a,b,n,m);
+	cout << minInsertionsAndDeletions(a,b,n,m);
 
 	cout << endl;
 }
