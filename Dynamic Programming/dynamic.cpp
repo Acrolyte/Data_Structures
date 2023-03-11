@@ -417,6 +417,54 @@ ll longestCommonSubstring(string a, string b, ll n, ll m){
 	return mx;
 }
 
+// 2. PRINT LCS: Print the sequence and not the length. Here, I'm using the top-down setup.
+string lcsPrint(string a,string b, ll n, ll m){
+	vvl dp(n+1, vector<ll> (m+1,-1));
+
+	REP(i,n+1) REP(j,m+1){
+		if(i==0 or j==0) dp[i][j] = 0;
+	}
+
+	REPN(i,n) REPN(j,m){
+		if(a[i-1] == b[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
+		else dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+	}
+
+	string ans = "";
+
+	// FORD(i,n,1) FORD(j,m,1)
+	ll i = n, j = m;
+	while(i>1) while(j>1){
+		if(a[i-1]==b[j-1]){ ans.push_back(a[i-1]); i--; j--;}
+		else {
+			if(dp[i-1][j] > dp[i][j-1]) i--;
+			else j--;
+		}
+	}
+
+	reverse(ans.begin(), ans.end());
+
+	return ans;
+}
+
+// 3. Shortest Common SuperSequence: Find the shortest possible length of merging two strings by their given sequence.
+ll shortestCommonSuperSequence(string a,string b, ll n, ll m){
+	
+	// for ex:
+	// a = AGGTAB
+	//b = GXTXAYB
+
+	// thus common letters in order will be: G T A B
+
+	// hence the shortest Common SuperSequence will be: AGGXTXAYB, which is of length 9.
+	// for common letters we find out the longest common subsequence and remove one set of those
+	// from the total length. 
+
+	return n + m - lcsTopDown(a,b,n,m);
+}
+
+
+
 void solve(){
 	// ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
 	// cin>>n;
@@ -460,7 +508,7 @@ void solve(){
 	string a, b;
 	cin>> a >> b;
 	ll n = a.length(), m = b.length();
-	// vvl dp(n+1, vector<ll> (m+1,-1));
+	// vvl dp(n+1, vector<ll> (m+1,-1));f
 
 	// cout << lcsRecursive(a,b,n,m);
 	// cout << lcsMemoized(a,b,n,m,dp);
@@ -468,7 +516,9 @@ void solve(){
 	// for(auto i: dp){auto it = i; debug(i)}
 
 	// PROBLEMS ON LONGEST COMMON SUBSEQUENCE
-	cout << longestCommonSubstring(a,b,n,m);
+	// cout << longestCommonSubstring(a,b,n,m);
+	// cout << lcsPrint(a,b,n,m);
+	cout << shortestCommonSuperSequence(a,b,n,m);
 
 	cout << endl;
 }
