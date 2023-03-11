@@ -476,6 +476,14 @@ ll minInsertionsAndDeletions(string a, string b, ll n, ll m){
 	return n+m - 2*lcsTopDown(a,b,n,m);
 }
 
+// 5. Longest Palindromic Subsequence: Find the longest possible palindromic sequence.
+ll longestPalindromicSubsequence(string a, ll n){
+	string b = a;
+	ll m = b.length();
+	REVERSE(b);
+
+	return lcsTopDown(a,b,n,m);
+}
 
 void solve(){
 	// ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
@@ -517,9 +525,9 @@ void solve(){
 	// Longest Common Subsequence
 	// using string inputs and their lengths.
 
-	string a, b;
-	cin>> a >> b;
-	ll n = a.length(), m = b.length();
+	// string a, b;
+	// cin>> a >> b;
+	// ll n = a.length(), m = b.length();
 	// vvl dp(n+1, vector<ll> (m+1,-1));f
 
 	// cout << lcsRecursive(a,b,n,m);
@@ -531,7 +539,12 @@ void solve(){
 	// cout << longestCommonSubstring(a,b,n,m);
 	// cout << lcsPrint(a,b,n,m);
 	// cout << shortestCommonSuperSequence(a,b,n,m);
-	cout << minInsertionsAndDeletions(a,b,n,m);
+	// cout << minInsertionsAndDeletions(a,b,n,m);
+
+	// Palindromic Subsequences
+	string a; cin>> a;
+	ll n = a.length();
+	cout << longestPalindromicSubsequence(a,n);
 
 	cout << endl;
 }
