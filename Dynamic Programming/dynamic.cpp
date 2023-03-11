@@ -478,12 +478,26 @@ ll minInsertionsAndDeletions(string a, string b, ll n, ll m){
 
 // 5. Longest Palindromic Subsequence: Find the longest possible palindromic sequence.
 ll longestPalindromicSubsequence(string a, ll n){
+	
+	// Suppose the given string is AGBCBA so the longest palindrome possible is ABCBA.
+	// We pass the reverse of this string as the second string in lcs and find out the common terms.
+
 	string b = a;
 	ll m = b.length();
 	REVERSE(b);
 
 	return lcsTopDown(a,b,n,m);
 }
+
+// 6. Minimum no. of deletions to make a string palindrome.
+ll minimumDeletionsToPalindrome(string a,ll n){
+
+	// First we find the possible palindrome with the help of longestPalindromicSubsequence.
+	// then we remove the characters from the given string to find out the minimum deletions.
+
+	return n - longestPalindromicSubsequence(a,n);
+}
+
 
 void solve(){
 	// ll n=0,t=0,x=0,k=0,y=0,z=0,a=0,b=0,c=0;
@@ -544,7 +558,8 @@ void solve(){
 	// Palindromic Subsequences
 	string a; cin>> a;
 	ll n = a.length();
-	cout << longestPalindromicSubsequence(a,n);
+	// cout << longestPalindromicSubsequence(a,n);
+	cout << minimumDeletionsToPalindrome(a,n);
 
 	cout << endl;
 }
